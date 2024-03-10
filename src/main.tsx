@@ -12,6 +12,7 @@ import AddMember from "./components/AddMember/AddMemberLayout.tsx";
 import Services from "./components/AddMember/Services.tsx";
 import Locations from "./components/AddMember/Locations.tsx";
 import Commisions from "./components/AddMember/Commisions.tsx";
+import ProfileSub from "./components/AddMember/ProfileSub.tsx";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
     path: "team/add",
     element: <AddMember />,
     children: [
-      { path: "profile", element: <Profile /> },
+      { path: "profile", element: <ProfileSub /> },
       { path: "services", element: <Services /> },
       { path: "locations", element: <Locations /> },
       { path: "settings", element: <Settings /> },
