@@ -49,7 +49,7 @@ export default function AddMember() {
           </div>
         </div>
 
-        <div>
+        <div className="w-[850px] flex flex-col gap-y-10 bg-white p-10 rounded-xl border border-border">
           <Outlet />
         </div>
       </div>

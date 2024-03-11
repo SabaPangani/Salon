@@ -10,6 +10,7 @@ body {
   background-color: rgb(241, 241, 241);
   list-style-type: none;
   text-decoration-style: none;
+  color: #333333;
 }
 
 @layer components {
