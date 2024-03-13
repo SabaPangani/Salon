@@ -7,9 +7,9 @@ export default function Team() {
     navigate("add/profile");
   };
   return (
-    <div className="w-full max-w-[900px] flex flex-col gap-y-5 my-36">
+    <div className="w-full flex flex-col gap-y-5">
       <header className="flex flex-row items-center justify-between">
-        <h1 className="text-3xl text-dark font-bold">Team members</h1>
+        <h1 className="text-3xl font-semibold">Team members</h1>
 
         <button className="btn-primary" onClick={handleClick}>Add</button>
       </header>

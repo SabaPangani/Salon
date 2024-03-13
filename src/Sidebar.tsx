@@ -4,6 +4,7 @@ import HomeSvg from "./components/svgs/HomeSvg";
 import ProfileSvg from "./components/svgs/ProfileSvg";
 import SettingsSvg from "./components/svgs/SettingsSvg";
 import TeamSvg from "./components/svgs/TeamSvg";
+import Catalogue from "./components/svgs/CatalogueSvg";
 
 export default function Sidebar() {
   const getNavLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -27,6 +28,11 @@ export default function Sidebar() {
         <NavLink to="team" className={getNavLinkClass}>
           <li>
             <TeamSvg />
+          </li>
+        </NavLink>
+        <NavLink to="catalogue" className={getNavLinkClass}>
+          <li>
+            <Catalogue />
           </li>
         </NavLink>
         <NavLink to="profile" className={getNavLinkClass}>

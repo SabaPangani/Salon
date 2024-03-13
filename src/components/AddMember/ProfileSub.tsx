@@ -1,3 +1,5 @@
+import Input from "../Input";
+
 export default function ProfileSub() {
   const colors = ["#e4a6e6", "#e0b6e6", "#e1c6e6", "#e2d6e6", "#e3g6e6"];
 
@@ -13,19 +15,19 @@ export default function ProfileSub() {
       <form className="flex flex-row flex-wrap gap-x-5 gap-y-5">
         <div className="flex flex-col w-[350px]">
           <label className="font-medium text-dark">First name*</label>
-          <input type="text" className="input" />
+          <Input type="text" placeholder="" onChange={() => {}} value="" />
         </div>
         <div className="flex flex-col w-[350px]">
           <label className="font-medium text-dark">Last name</label>
-          <input type="text" className="input" />
+          <Input type="text" placeholder="" onChange={() => {}} value="" />
         </div>
         <div className="flex flex-col w-[350px]">
           <label className="font-medium text-dark">Email*</label>
-          <input type="email" className="input" />
+          <Input type="text" placeholder="" onChange={() => {}} value="" />
         </div>
         <div className="flex flex-col w-[350px]">
           <label className="font-medium text-dark">Phone number</label>
-          <input type="text" className="input" />
+          <Input type="text" placeholder="" onChange={() => {}} value="" />
         </div>
 
         <div className="flex flex-col gap-y-2 w-full border-b border-border pb-5">
@@ -42,7 +44,7 @@ export default function ProfileSub() {
         </div>
         <div className="flex flex-col">
           <label className="font-medium text-dark">Job title*</label>
-          <input type="text" className="input" />
+          <Input type="text" placeholder="" onChange={() => {}} value="" />
         </div>
       </form>
     </>

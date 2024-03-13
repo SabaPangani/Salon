@@ -25,7 +25,7 @@ export default function Services() {
             All services (5)
           </span>
         </label>
-        <div className="flex flex-col gap-y-10 w-full mt-10">
+        <div className="flex flex-col gap-y-10 w-full mt-5">
           <label className="inline-flex items-center border-b border-border pb-5 cursor-pointer">
             <input
               type="checkbox"

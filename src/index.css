@@ -7,7 +7,7 @@
 }
 
 body {
-  background-color: rgb(241, 241, 241);
+  background-color: rgba(241, 241, 241, 0.308);
   list-style-type: none;
   text-decoration-style: none;
   color: #333333;

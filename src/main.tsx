@@ -13,6 +13,8 @@ import Services from "./components/AddMember/Services.tsx";
 import Locations from "./components/AddMember/Locations.tsx";
 import Commisions from "./components/AddMember/Commisions.tsx";
 import ProfileSub from "./components/AddMember/ProfileSub.tsx";
+import Catalogue from "./routes/Catalogue.tsx";
+import AddService from "./components/AddService.tsx";
 
 const router = createBrowserRouter([
   {
@@ -22,10 +24,12 @@ const router = createBrowserRouter([
       { path: "dashboard", element: <Dashboard /> },
       { path: "calendar", element: <Calendar /> },
       { path: "team", element: <Team /> },
+      { path: "catalogue", element: <Catalogue /> },
       { path: "profile", element: <Profile /> },
       { path: "settings", element: <Settings /> },
     ],
   },
+  { path: "catalogue/service/add", element: <AddService /> },
   {
     path: "team/add",
     element: <AddMember />,

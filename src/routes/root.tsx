@@ -8,7 +8,7 @@ export default function Root() {
       <Navbar />
       <Sidebar />
 
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center mt-48 w-full max-w-[900px] mx-auto bg-white p-8 rounded-lg">
         <Outlet />
       </div>
     </div>
