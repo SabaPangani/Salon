@@ -1,8 +1,17 @@
+import { useOutletContext } from "react-router-dom";
 import Input from "../Input";
-
+interface ProfileContextType {
+  setName: (name: string) => void;
+  setLastName: (lastName: string) => void;
+  setEmail: (email: string) => void;
+  setNumber: (number: string) => void;
+  setJobTitle: (jobTitle: string) => void;
+}
 export default function ProfileSub() {
   const colors = ["#e4a6e6", "#e0b6e6", "#e1c6e6", "#e2d6e6", "#e3g6e6"];
 
+  const { setName, setLastName, setEmail, setNumber, setJobTitle } =
+    useOutletContext() as ProfileContextType;
   return (
     <>
       <div>
@@ -15,19 +24,45 @@ export default function ProfileSub() {
       <form className="flex flex-row flex-wrap gap-x-5 gap-y-5">
         <div className="flex flex-col w-[350px]">
           <label className="font-medium text-dark">First name*</label>
-          <Input type="text" placeholder="" onChange={() => {}} value="" />
+          <Input
+            type="text"
+            placeholder=""
+            onChange={(newValue) => setName(newValue)}
+            value=""
+          />
         </div>
         <div className="flex flex-col w-[350px]">
           <label className="font-medium text-dark">Last name</label>
-          <Input type="text" placeholder="" onChange={() => {}} value="" />
+          <Input
+            type="text"
+            placeholder=""
+            onChange={(e) => {
+              setLastName(e);
+            }}
+            value=""
+          />
         </div>
         <div className="flex flex-col w-[350px]">
           <label className="font-medium text-dark">Email*</label>
-          <Input type="text" placeholder="" onChange={() => {}} value="" />
+          <Input
+            type="text"
+            placeholder=""
+            onChange={(e) => {
+              setEmail(e);
+            }}
+            value=""
+          />
         </div>
         <div className="flex flex-col w-[350px]">
           <label className="font-medium text-dark">Phone number</label>
-          <Input type="text" placeholder="" onChange={() => {}} value="" />
+          <Input
+            type="text"
+            placeholder=""
+            onChange={(e) => {
+              setNumber(e);
+            }}
+            value=""
+          />
         </div>
 
         <div className="flex flex-col gap-y-2 w-full border-b border-border pb-5">
@@ -44,7 +79,14 @@ export default function ProfileSub() {
         </div>
         <div className="flex flex-col">
           <label className="font-medium text-dark">Job title*</label>
-          <Input type="text" placeholder="" onChange={() => {}} value="" />
+          <Input
+            type="text"
+            placeholder=""
+            onChange={(e) => {
+              setJobTitle(e);
+            }}
+            value=""
+          />
         </div>
       </form>
     </>
