@@ -67,8 +67,8 @@ export default function Input({
           onBlur={handleBlur}
           defaultValue={value}
           placeholder={placeholder}
-          required
           ref={inputRef as React.RefObject<HTMLInputElement>}
+          required
         />
       )}
       {touched && isEmpty && (

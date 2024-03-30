@@ -21,7 +21,7 @@ export default function ProfileSub() {
         </p>
       </div>
 
-      <form className="flex flex-row flex-wrap gap-x-5 gap-y-5">
+      <div className="flex flex-row flex-wrap gap-x-5 gap-y-5">
         <div className="flex flex-col w-[350px]">
           <label className="font-medium text-dark">First name*</label>
           <Input
@@ -88,7 +88,7 @@ export default function ProfileSub() {
             value=""
           />
         </div>
-      </form>
+      </div>
     </>
   );
 }
