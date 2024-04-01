@@ -3,7 +3,7 @@ export default function User({
   lastName,
   email,
   number,
-  review,
+  // review,
 }: {
   name: string;
   lastName: string;
