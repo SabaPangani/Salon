@@ -15,6 +15,7 @@ import Commisions from "./components/AddMember/Commisions.tsx";
 import ProfileSub from "./components/AddMember/ProfileSub.tsx";
 import Catalogue from "./routes/Catalogue.tsx";
 import AddService from "./components/AddService.tsx";
+import { ServiceProvider } from "./store/serviceContext.tsx";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ServiceProvider>
+      <RouterProvider router={router} />
+    </ServiceProvider>
   </React.StrictMode>
 );
