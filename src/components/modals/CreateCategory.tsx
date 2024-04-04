@@ -1,7 +1,7 @@
 import CancelSvg from "../svgs/CancelSvg";
 import Input from "../Input";
 import { useService } from "../../hooks/useService";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 export default function CreateCategory({
   toggleModal,
@@ -12,6 +12,11 @@ export default function CreateCategory({
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const [desc, setDesc] = useState("");
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    createCategory(name, color, desc);
+  };
   return (
     <>
       <div
@@ -25,7 +30,7 @@ export default function CreateCategory({
             <CancelSvg />
           </span>
         </header>
-        <form className="flex flex-col gap-y-2">
+        <form className="flex flex-col gap-y-2" onSubmit={handleSubmit}>
           <label>
             <span className="text-sm font-medium">Category name</span>{" "}
             <Input
@@ -55,13 +60,7 @@ export default function CreateCategory({
           </label>
           <div className="border-border border-t flex justify-end items-center mt-5">
             <button className="btn-primary mt-5" type="submit">
-              <span
-                onClick={() => {
-                  createCategory(name, color, desc);
-                }}
-              >
-                Add
-              </span>
+              <span>Add</span>
             </button>
           </div>
         </form>

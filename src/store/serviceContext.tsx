@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { ServiceContextType } from "../shared/ServiceContextType";
 import { CategoryType } from "../shared/ServiceType";
 
@@ -16,13 +16,15 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
           throw new Error(`Failed to fetch categories, ${res.status}`);
         }
         const json = await res.json();
-        setCategories(json);
+        setCategories(json.data);
+        console.log(categories);
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
   }, []);
+
   const createCategory = async (name: string, color: string, desc: string) => {
     try {
       const category = { name, color, desc };
@@ -36,6 +38,7 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
       }
       const json = await res.json();
       setCategories((prev) => [...prev, json]);
+      console.log(categories, json);
     } catch (error) {
       console.error(error);
     }
@@ -48,7 +51,9 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
   ) => {};
 
   return (
-    <serviceContext.Provider value={{ createCategory, createService }}>
+    <serviceContext.Provider
+      value={{ categories, createCategory, createService }}
+    >
       {children}
     </serviceContext.Provider>
   );
