@@ -1,29 +1,30 @@
 import { createContext, useEffect, useState } from "react";
 import { ServiceContextType } from "../shared/ServiceContextType";
-import { CategoryType } from "../shared/ServiceType";
+import { CategoryType, ServiceType } from "../shared/ServiceType";
 
 export const serviceContext = createContext<ServiceContextType | null>(null);
 
 export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [categories, setCategories] = useState<CategoryType[]>([]);
+  // const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [services, setServices] = useState<CategoryType[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("https://localhost:7121/api/servicecategory");
+        const res = await fetch("https://localhost:7121/api/service");
         if (!res.ok) {
-          throw new Error(`Failed to fetch categories, ${res.status}`);
+          throw new Error(`Failed to fetch services, ${res.status}`);
         }
         const json = await res.json();
-        setCategories(json.data);
-        console.log(categories);
+        setServices(json.data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
   }, []);
+  console.log(services);
 
   const createCategory = async (name: string, color: string, desc: string) => {
     try {
@@ -37,8 +38,8 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
         throw new Error(`Failed to create category, ${res.status}`);
       }
       const json = await res.json();
-      setCategories((prev) => [...prev, json]);
-      console.log(categories, json);
+      // setCategories((prev) => [...prev, json]);
+      console.log(json);
     } catch (error) {
       console.error(error);
     }
@@ -52,7 +53,7 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <serviceContext.Provider
-      value={{ categories, createCategory, createService }}
+      value={{ services, setServices, createCategory, createService }}
     >
       {children}
     </serviceContext.Provider>

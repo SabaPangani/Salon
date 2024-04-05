@@ -1,6 +1,11 @@
+import { useState } from "react";
 import Input from "./Input";
+import CategoryModal from "./modals/CategoryModal";
 
 export default function AddService() {
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal = () => setShowModal((prev) => !prev);
+
   return (
     <>
       <h1 className="text-center text-2xl font-semibold mt-16">
@@ -21,8 +26,17 @@ export default function AddService() {
               <Input type="text" placeholder="" onChange={() => {}} value="" />
             </label>
             <label>
-              <span className="text-sm font-semibold">Service type</span>
-              <Input type="text" placeholder="" onChange={() => {}} value="" />
+              <span className="text-sm font-semibold">Service category</span>
+              <div className="input flex items-center justify-end" id="">
+                <span
+                  className="cursor-pointer font-medium text-purple"
+                  onClick={() => {
+                    setShowModal(true);
+                  }}
+                >
+                  Edit
+                </span>
+              </div>
             </label>
             <label>
               <span className="text-sm font-semibold">Service type</span>
@@ -58,6 +72,8 @@ export default function AddService() {
           </div>
         </div>
       </div>
+
+      {showModal && <CategoryModal toggleModal={toggleModal} />}
     </>
   );
 }

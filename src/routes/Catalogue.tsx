@@ -1,10 +1,12 @@
 import { Reorder } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import ArrowDownSvg from "../components/svgs/ArrowDownSvg";
 import CreateCategory from "../components/modals/CreateCategory";
+import { useService } from "../hooks/useService";
 
 export default function Catalogue() {
+  const { services, setServices } = useService()!;
   const [showDropdown, setShowDropdown] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [items, setItems] = useState([
@@ -56,7 +58,10 @@ export default function Catalogue() {
                   New service
                 </span>
               </NavLink>
-              <span className="text-sm text-dark cursor-pointer" onClick={toggleModal}>
+              <span
+                className="text-sm text-dark cursor-pointer"
+                onClick={toggleModal}
+              >
                 New category
               </span>
             </div>
@@ -65,11 +70,11 @@ export default function Catalogue() {
 
         <div className="flex flex-col gap-y-8">
           <Reorder.Group
-            values={items}
-            onReorder={setItems}
+            values={services}
+            onReorder={setServices}
             className="flex flex-col gap-y-5"
           >
-            {items.map((category) => (
+            {services.map((category) => (
               <Reorder.Item value={category} key={category.name}>
                 <Reorder.Group
                   values={category.services}
@@ -99,7 +104,7 @@ export default function Catalogue() {
           </Reorder.Group>
         </div>
       </div>
-      {showModal && <CreateCategory toggleModal={toggleModal}/>}
+      {showModal && <CreateCategory toggleModal={toggleModal} />}
     </>
   );
 }
