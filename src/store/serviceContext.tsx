@@ -44,13 +44,30 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
       console.error(error);
     }
   };
-  const createService = (
+  const createService = async (
     name: string,
     desc: string,
     afterCareDesc: string,
     categoryId: string
-  ) => {};
-
+  ) => {
+    try {
+      const service = { name, afterCareDesc, desc, categoryId };
+      console.log(service);
+      const res = await fetch("https://localhost:7121/api/service", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(service),
+      });
+      if (!res.ok) {
+        throw new Error(`Failed to create category, ${res.status}`);
+      }
+      const json = await res.json();
+      // setCategories((prev) => [...prev, json]);
+      console.log(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <serviceContext.Provider
       value={{ services, setServices, createCategory, createService }}

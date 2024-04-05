@@ -2,8 +2,10 @@ import { useService } from "../../hooks/useService";
 
 export default function CategoryModal({
   toggleModal,
+  onSetCatId,
 }: {
   toggleModal: () => void;
+  onSetCatId: (id: string) => void;
 }) {
   const { services } = useService()!;
   return (
@@ -16,7 +18,16 @@ export default function CategoryModal({
         <p className="text-dark text-2xl font-medium mb-10">Select category</p>
         <ul className="flex flex-col gap-y-5">
           {services.map((category) => (
-            <li key={category.categoryId} className="text-xl text-dark font-medium border-border border-b pb-1 px-5 cursor-pointer">{category?.name}</li>
+            <li
+              key={category.categoryId}
+              className="text-xl text-dark font-medium border-border border-b pb-1 px-5 cursor-pointer"
+              onClick={() => {
+                onSetCatId(category.categoryId);
+                console.log(category.categoryId)
+              }}
+            >
+              {category?.name}
+            </li>
           ))}
         </ul>
       </div>

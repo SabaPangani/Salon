@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import Input from "./Input";
 import CategoryModal from "./modals/CategoryModal";
+import { useService } from "../hooks/useService";
 
 export default function AddService() {
   const [showModal, setShowModal] = useState(false);
+  const [name, setName] = useState("");
+  const [desc, setDesc] = useState("");
+  const [serviceType, setServiceType] = useState("");
+  const [catId, setCatId] = useState("");
   const toggleModal = () => setShowModal((prev) => !prev);
 
+  const { createService } = useService()!;
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    createService(name, desc, serviceType, catId);
+  };
   return (
     <>
       <h1 className="text-center text-2xl font-semibold mt-16">
@@ -20,10 +30,17 @@ export default function AddService() {
             </p>
           </header>
 
-          <form className="pr-96 pl-2 mt-5">
+          <form className="pr-96 pl-2 mt-5" onSubmit={handleSubmit}>
             <label>
               <span className="text-sm font-semibold">Service name</span>
-              <Input type="text" placeholder="" onChange={() => {}} value="" />
+              <Input
+                type="text"
+                placeholder=""
+                onChange={(e) => {
+                  setName(e);
+                }}
+                value=""
+              />
             </label>
             <label>
               <span className="text-sm font-semibold">Service category</span>
@@ -43,7 +60,9 @@ export default function AddService() {
               <Input
                 type="textarea"
                 placeholder=""
-                onChange={() => {}}
+                onChange={(e) => {
+                  setServiceType(e);
+                }}
                 value=""
               />
             </label>
@@ -54,10 +73,16 @@ export default function AddService() {
               <Input
                 type="textarea"
                 placeholder=""
-                onChange={() => {}}
+                onChange={(e) => {
+                  setDesc(e);
+                }}
                 value=""
               />
             </label>
+
+            <button className="btn-primary" type="submit">
+              Save
+            </button>
           </form>
         </div>
         <div>
@@ -73,7 +98,9 @@ export default function AddService() {
         </div>
       </div>
 
-      {showModal && <CategoryModal toggleModal={toggleModal} />}
+      {showModal && (
+        <CategoryModal toggleModal={toggleModal} onSetCatId={setCatId} />
+      )}
     </>
   );
 }
