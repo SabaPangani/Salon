@@ -2,19 +2,20 @@ import { FormEvent, useState } from "react";
 import Input from "./Input";
 import CategoryModal from "./modals/CategoryModal";
 import { useService } from "../hooks/useService";
+import { ServiceType } from "../shared/ServiceType";
 
 export default function AddService() {
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [serviceType, setServiceType] = useState("");
-  const [catId, setCatId] = useState("");
+  const [category, setCategory] = useState<ServiceType>();
   const toggleModal = () => setShowModal((prev) => !prev);
 
   const { createService } = useService()!;
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createService(name, desc, serviceType, catId);
+    createService(name, desc, serviceType, category?.categoryId!);
   };
   return (
     <>
@@ -44,7 +45,8 @@ export default function AddService() {
             </label>
             <label>
               <span className="text-sm font-semibold">Service category</span>
-              <div className="input flex items-center justify-end" id="">
+              <div className="input flex items-center justify-between" id="">
+                <span className="font-semibold text-dark">{category?.name}</span>
                 <span
                   className="cursor-pointer font-medium text-purple"
                   onClick={() => {
@@ -99,7 +101,7 @@ export default function AddService() {
       </div>
 
       {showModal && (
-        <CategoryModal toggleModal={toggleModal} onSetCatId={setCatId} />
+        <CategoryModal toggleModal={toggleModal} onSetCategory={setCategory} />
       )}
     </>
   );

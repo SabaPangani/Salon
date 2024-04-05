@@ -8,7 +8,7 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   // const [categories, setCategories] = useState<CategoryType[]>([]);
-  const [services, setServices] = useState<CategoryType[]>([]);
+  const [services, setServices] = useState<ServiceType[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
