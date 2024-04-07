@@ -1,6 +1,5 @@
-import { Reorder } from "framer-motion";
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import ArrowDownSvg from "../components/svgs/ArrowDownSvg";
 import CreateCategory from "../components/modals/CreateCategory";
 import { useService } from "../hooks/useService";
@@ -9,31 +8,6 @@ export default function Catalogue() {
   const { services, setServices } = useService()!;
   const [showDropdown, setShowDropdown] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [items, setItems] = useState([
-    {
-      name: "Hair & styling",
-      services: [
-        { name: "Haircut", duration: "45min", price: "GEL 40" },
-        { name: "Hair color", duration: "1h 15min", price: "GEL 57" },
-        { name: "Blow dry", duration: "45min", price: "GEL 35" },
-        { name: "Balayage", duration: "2h 35min", price: "GEL 150" },
-      ],
-    },
-    {
-      name: "Nails",
-      services: [{ name: "Manicure", duration: "45min", price: "GEL 20" }],
-    },
-  ]);
-
-  const reorderServices = (categoryName: any, newServicesOrder: any) => {
-    const newItems = items.map((item) => {
-      if (item.name === categoryName) {
-        return { ...item, services: newServicesOrder };
-      }
-      return item;
-    });
-    setItems(newItems);
-  };
 
   const toggleModal = () => setShowModal((prev) => !prev);
 
@@ -68,41 +42,31 @@ export default function Catalogue() {
           )}
         </header>
 
-        <div className="flex flex-col gap-y-8">
-          <Reorder.Group
-            values={services}
-            onReorder={setServices}
-            className="flex flex-col gap-y-5"
-          >
-            {services.map((category) => (
-              <Reorder.Item value={category} key={category.name}>
-                <Reorder.Group
-                  values={category.services}
-                  onReorder={(newOrder) =>
-                    reorderServices(category.name, newOrder)
-                  }
+        <ul className="flex flex-col gap-y-8">
+          {services.map((category) => (
+            <li className="flex flex-col gap-y-2" key={category.categoryId}>
+              <h1 className="text-2xl font-semibold mb-2 pl-6">
+                {category.name}
+              </h1>
+              {category.services.map((service) => (
+                <Link
+                  to={{
+                    pathname: "service/add",
+                  }}
+                  state={{category, service}}
                 >
-                  <div className="flex flex-col gap-y-2">
-                    <h1 className="text-xl font-semibold mb-2 pl-6">
-                      {category.name}
-                    </h1>
-                    {category.services.map((service) => (
-                      <Reorder.Item value={service} key={service.name}>
-                        <div className="flex justify-between items-center border border-border py-4 px-5 rounded-md cursor-pointer">
-                          <h4 className="font-medium">{service.name}</h4>
-                          <p className="text-gray min-w-[95px] text-right text-sm font-medium">
-                            {service.duration}
-                          </p>
-                          <p className="font-semibold">{service.price}</p>
-                        </div>
-                      </Reorder.Item>
-                    ))}
+                  <div className="flex justify-between items-center border-border border py-4 px-5 rounded-sm cursor-pointer">
+                    <h4 className="font-medium text-lg">{service.name}</h4>
+                    <p className="text-gray min-w-[95px] text-right text-sm font-medium">
+                      {service.duration}
+                    </p>
+                    <p className="font-semibold">{service.price}</p>
                   </div>
-                </Reorder.Group>
-              </Reorder.Item>
-            ))}
-          </Reorder.Group>
-        </div>
+                </Link>
+              ))}
+            </li>
+          ))}
+        </ul>
       </div>
       {showModal && <CreateCategory toggleModal={toggleModal} />}
     </>

@@ -1,15 +1,17 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Input from "./Input";
 import CategoryModal from "./modals/CategoryModal";
 import { useService } from "../hooks/useService";
-import { ServiceType } from "../shared/ServiceType";
+import { CategoryType } from "../shared/ServiceType";
+import { useLocation } from "react-router-dom";
 
 export default function AddService() {
+  const { state } = useLocation();
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [serviceType, setServiceType] = useState("");
-  const [category, setCategory] = useState<ServiceType>();
+  const [category, setCategory] = useState<CategoryType>();
   const toggleModal = () => setShowModal((prev) => !prev);
 
   const { createService } = useService()!;
@@ -40,13 +42,15 @@ export default function AddService() {
                 onChange={(e) => {
                   setName(e);
                 }}
-                value=""
+                value={state?.service ? state?.service?.name : ""}
               />
             </label>
             <label>
               <span className="text-sm font-semibold">Service category</span>
               <div className="input flex items-center justify-between" id="">
-                <span className="font-semibold text-dark">{category?.name}</span>
+                <span className="font-semibold text-dark">
+                  {state?.category.name ? state.category.name : category?.name}
+                </span>
                 <span
                   className="cursor-pointer font-medium text-purple"
                   onClick={() => {

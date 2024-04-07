@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { useService } from "../../hooks/useService";
-import { CategoryType, ServiceType } from "../../shared/ServiceType";
+import { CategoryType } from "../../shared/ServiceType";
 import CancelSvg from "../svgs/CancelSvg";
 
 export default function CategoryModal({
@@ -8,7 +8,7 @@ export default function CategoryModal({
   onSetCategory,
 }: {
   toggleModal: () => void;
-  onSetCategory: Dispatch<SetStateAction<ServiceType | undefined>>;
+  onSetCategory: Dispatch<SetStateAction<CategoryType | undefined>>;
 }) {
   const { services } = useService()!;
   return (
