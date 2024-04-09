@@ -1,24 +1,35 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import Input from "./Input";
 import CategoryModal from "./modals/CategoryModal";
 import { useService } from "../hooks/useService";
 import { CategoryType } from "../shared/ServiceType";
-import { useLocation } from "react-router-dom";
-
+import { useLocation, useNavigate } from "react-router-dom";
 export default function AddService() {
   const { state } = useLocation();
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
-  const [serviceType, setServiceType] = useState("");
+  const [afterCareDesc, setAfterCareDesc] = useState("");
   const [category, setCategory] = useState<CategoryType>();
   const toggleModal = () => setShowModal((prev) => !prev);
+  const navigate = useNavigate();
+  const { createService, updateService, deleteService } = useService()!;
 
-  const { createService } = useService()!;
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createService(name, desc, serviceType, category?.categoryId!);
+    if (state?.service.id) {
+      updateService(
+        state.service.id,
+        name,
+        desc,
+        afterCareDesc,
+        state.category?.categoryId
+      );
+      return;
+    }
+    createService(name, desc, afterCareDesc, category?.categoryId!);
   };
+
   return (
     <>
       <h1 className="text-center text-2xl font-semibold mt-16">
@@ -62,14 +73,14 @@ export default function AddService() {
               </div>
             </label>
             <label>
-              <span className="text-sm font-semibold">Service type</span>
+              <span className="text-sm font-semibold">Service description</span>
               <Input
                 type="textarea"
                 placeholder=""
                 onChange={(e) => {
-                  setServiceType(e);
+                  setAfterCareDesc(e);
                 }}
-                value=""
+                value={state?.service ? state?.service?.description : ""}
               />
             </label>
             <label>
@@ -82,12 +93,23 @@ export default function AddService() {
                 onChange={(e) => {
                   setDesc(e);
                 }}
-                value=""
+                value={
+                  state?.service ? state?.service?.afterCareDescription : ""
+                }
               />
             </label>
 
             <button className="btn-primary" type="submit">
               Save
+            </button>
+            <button
+              className="btn-primary bg-red"
+              onClick={() => {
+                deleteService(state?.service.id);
+              }}
+              type="button"
+            >
+              Delete
             </button>
           </form>
         </div>

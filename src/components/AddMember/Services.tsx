@@ -1,4 +1,23 @@
+import { checkDomainOfScale } from "recharts/types/util/ChartUtils";
+import { useService } from "../../hooks/useService";
+import { ServiceType } from "../../shared/ServiceType";
+
 export default function Services() {
+  const { services, setServices } = useService()!;
+
+  const handleServiceChange = (
+    serviceId: string,
+    catId: string,
+    value: boolean
+  ) => {
+    const updatedService =
+      services
+        .find((cat) => {
+          cat.categoryId === catId;
+        })
+        ?.services.find((service) => service.id === serviceId)?.isChecked ===
+      value;
+  };
   return (
     <>
       <div>
@@ -17,79 +36,58 @@ export default function Services() {
 
       <div className="flex flex-col items-start justify-center gap-y-5">
         <label className="inline-flex items-center border-b border-border pb-5 w-full cursor-pointer">
-          <input
-            type="checkbox"
-            className="text-blue-600 h-5 w-5"
-          />
-          <span className="ml-4 text-4ark font-semibold">
-            All services (5)
-          </span>
+          <input type="checkbox" className="text-blue-600 h-5 w-5" />
+          <span className="ml-4 text-4ark font-semibold">All services (5)</span>
         </label>
-        <div className="flex flex-col gap-y-10 w-full mt-5">
-          <label className="inline-flex items-center border-b border-border pb-5 cursor-pointer">
-            <input
-              type="checkbox"
-              className="text-blue-600 h-5 w-5"
-            />
-            <span className="ml-4 text-dark font-semibolm">
-              Hair & styling (4)
-            </span>
-          </label>
-          <label className="inline-flex items-start flex-col cursor-pointer">
-            <div className="flex flex-row items-center">
-              <input
-                type="checkbox"
-                className="text-blue-600 h-5 w-5"
-              />
-              <span className="ml-4 text-dark font-medium">Haircut</span>
-            </div>
-            <div className="bg-border h-[1px] mt-5 ml-7 w-full"></div>
-          </label>
-          <label className="inline-flex items-start flex-col cursor-pointer">
-            <div className="flex flex-row items-center">
-              <input
-                type="checkbox"
-                className="text-blue-600 h-5 w-5"
-              />
-              <span className="ml-4 text-dark font-medium">Hair color</span>
-            </div>
-            <div className="bg-border h-[1px] mt-5 ml-7 w-full"></div>
-          </label>
-          <label className="inline-flex items-start flex-col cursor-pointer">
-            <div className="flex flex-row items-center">
-              <input
-                type="checkbox"
-                className="text-blue-600 h-5 w-5"
-              />
-              <span className="ml-4 text-dark font-medium">Blow dry</span>
-            </div>
-            <div className="bg-border h-[1px] mt-5 ml-7 w-full"></div>
-          </label>
-          <label className="inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              className="text-blue-600 h-5 w-5"
-            />
-            <span className="ml-4 text-dark font-medium">Balayage</span>
-          </label>
-        </div>
-
-        <div className="flex flex-col gap-y-10 w-full mt-10">
-          <label className="inline-flex items-center border-b border-border pb-5">
-            <input
-              type="checkbox"
-              className="text-blue-600 h-5 w-5"
-            />
-            <span className="ml-4 text-dark font-semibold cursor-pointer">Nails (1)</span>
-          </label>
-          <label className="inline-flex items-center">
-            <input
-              type="checkbox"
-              className="text-blue-600 h-5 w-5"
-            />
-            <span className="ml-4 text-dark font-medium cursor-pointer">Manicure</span>
-          </label>
-        </div>
+        <ul className="w-full">
+          {services.map((category) => (
+            <li
+              className="flex flex-col gap-y-10 w-full mt-5"
+              key={category.categoryId}
+            >
+              <label className="inline-flex items-center border-b border-border pb-5 cursor-pointer w-full">
+                <input
+                  type="checkbox"
+                  className="text-blue-600 h-5 w-5"
+                  checked={category.isChecked}
+                />
+                <span className="ml-4 text-dark font-bold">
+                  {category.name} (4)
+                </span>
+              </label>
+              {category.services.map((service: ServiceType) => (
+                <label
+                  className="inline-flex items-start flex-col cursor-pointer"
+                  key={service.id}
+                >
+                  <div className="flex flex-row items-center">
+                    <input
+                      type="checkbox"
+                      className="text-blue-600 h-5 w-5"
+                      checked={category.isChecked}
+                      onChange={(e) => {
+                        handleServiceChange(
+                          service.id,
+                          category.categoryId,
+                          e.target.checked
+                        );
+                      }}
+                    />
+                    <div className="flex flex-col">
+                      <span className="ml-4 text-dark font-medium">
+                        {service.name}
+                      </span>
+                      <span className="ml-4 text-sm font-medium text-gray">
+                        45min
+                      </span>
+                    </div>
+                  </div>
+                  <div className="bg-border h-[1px] mt-5 ml-7 w-full"></div>
+                </label>
+              ))}
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   );

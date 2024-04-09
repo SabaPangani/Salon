@@ -55,7 +55,7 @@ export default function AddMember() {
           </button>
         </header>
 
-        <h1 className="text-dark text-4xl font-bold mt-10 pl-16">
+        <h1 className="text-dark text-4xl font-bold mt-10 pl-16 mb-8">
           Add team member
         </h1>
         <div className="flex flex-row items-start justify-between px-16">

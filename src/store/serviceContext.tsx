@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { ServiceContextType } from "../shared/ServiceContextType";
 import { CategoryType, ServiceType } from "../shared/ServiceType";
+import { useNavigate } from "react-router-dom";
 
 export const serviceContext = createContext<ServiceContextType | null>(null);
 
@@ -8,7 +9,7 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   // const [categories, setCategories] = useState<CategoryType[]>([]);
-  const [services, setServices] = useState<ServiceType[]>([]);
+  const [services, setServices] = useState<CategoryType[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -51,7 +52,12 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
     categoryId: string
   ) => {
     try {
-      const service = { name, afterCareDesc, desc, categoryId };
+      const service = {
+        name,
+        aftercareDescription: afterCareDesc,
+        description: desc,
+        categoryId,
+      };
       console.log(service);
       const res = await fetch("https://localhost:7121/api/service", {
         method: "POST",
@@ -62,7 +68,57 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
         throw new Error(`Failed to create category, ${res.status}`);
       }
       const json = await res.json();
-      // setCategories((prev) => [...prev, json]);
+      console.log(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const updateService = async (
+    id: string,
+    name: string,
+    desc: string,
+    afterCareDesc: string,
+    categoryId: string
+  ) => {
+    try {
+      const service = {
+        id,
+        name,
+        description: desc,
+        afterCareDescription: afterCareDesc,
+        categoryId,
+      };
+      console.log(service);
+
+      const res = await fetch(`https://localhost:7121/api/service`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(service),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Failed to update service, status code: ${res.status}`);
+      }
+
+      const json = await res.json();
+      console.log(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const deleteService = async (id: string) => {
+    try {
+      const res = await fetch(`https://localhost:7121/api/service/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(id),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Failed to delete service, status code: ${res.status}`);
+      }
+
+      const json = await res.json();
       console.log(json);
     } catch (error) {
       console.error(error);
@@ -70,7 +126,14 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
   };
   return (
     <serviceContext.Provider
-      value={{ services, setServices, createCategory, createService }}
+      value={{
+        services,
+        setServices,
+        createCategory,
+        deleteService,
+        createService,
+        updateService,
+      }}
     >
       {children}
     </serviceContext.Provider>

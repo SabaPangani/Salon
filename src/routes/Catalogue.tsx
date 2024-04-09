@@ -11,6 +11,7 @@ export default function Catalogue() {
 
   const toggleModal = () => setShowModal((prev) => !prev);
 
+  console.log(services);
   return (
     <>
       <div className="w-full flex flex-col gap-y-16">
@@ -50,10 +51,11 @@ export default function Catalogue() {
               </h1>
               {category.services.map((service) => (
                 <Link
+                  key={service.id}
                   to={{
                     pathname: "service/add",
                   }}
-                  state={{category, service}}
+                  state={{ category, service }}
                 >
                   <div className="flex justify-between items-center border-border border py-4 px-5 rounded-sm cursor-pointer">
                     <h4 className="font-medium text-lg">{service.name}</h4>
