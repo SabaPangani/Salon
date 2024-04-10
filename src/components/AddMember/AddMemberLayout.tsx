@@ -9,6 +9,7 @@ export default function AddMember() {
   const [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
   const [jobTitle, setJobTitle] = useState("");
+  const [serviceId, setServiceId] = useState("");
 
   const handleClick = () => {
     navigate("/team");
@@ -26,6 +27,7 @@ export default function AddMember() {
           phoneNumber: number,
           color: "string",
           jobTitle: jobTitle,
+          serviceId: serviceId,
           startDate: "2024-03-29",
           endDate: "2024-03-29",
         }),
@@ -95,6 +97,8 @@ export default function AddMember() {
                 setEmail,
                 setNumber,
                 setJobTitle,
+                setServiceId,
+                serviceId,
               }}
             />
           </div>

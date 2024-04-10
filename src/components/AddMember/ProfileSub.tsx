@@ -1,5 +1,6 @@
 import { useOutletContext } from "react-router-dom";
 import Input from "../Input";
+
 interface ProfileContextType {
   setName: (name: string) => void;
   setLastName: (lastName: string) => void;

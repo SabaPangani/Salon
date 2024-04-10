@@ -1,22 +1,42 @@
-import { checkDomainOfScale } from "recharts/types/util/ChartUtils";
+import { useLocation, useOutletContext } from "react-router-dom";
 import { useService } from "../../hooks/useService";
-import { ServiceType } from "../../shared/ServiceType";
-
+interface ProfileContextType {
+  setName: (name: string) => void;
+  setLastName: (lastName: string) => void;
+  setEmail: (email: string) => void;
+  setNumber: (number: string) => void;
+  setJobTitle: (jobTitle: string) => void;
+  setServiceId: (id: string) => void;
+  serviceId: string;
+}
 export default function Services() {
-  const { services, setServices } = useService()!;
+  const { services } = useService()!;
+  const { setServiceId, serviceId } = useOutletContext() as ProfileContextType;
+  const { state } = useLocation();
+  console.log(state)
+  const handleServiceAssign = async () => {
+    const employeeService = {
+      employeeId: state?.id,
+      serviceId,
+      price: 0,
+      percentage: 0,
+    };
+    console.log(employeeService)
+    try {
+      const res = await fetch("https://localhost:7121/api/employeeservice", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(employeeService),
+      });
 
-  const handleServiceChange = (
-    serviceId: string,
-    catId: string,
-    value: boolean
-  ) => {
-    const updatedService =
-      services
-        .find((cat) => {
-          cat.categoryId === catId;
-        })
-        ?.services.find((service) => service.id === serviceId)?.isChecked ===
-      value;
+      if (!res.ok) {
+        throw new Error(`Failed to assign employee a service, ${res.status}`);
+      }
+      const json = await res.json();
+      console.log(json);
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <>
@@ -27,67 +47,34 @@ export default function Services() {
         </p>
       </div>
 
-      <div className="flex flex-row gap-x-3 items-center">
-        <span className="font-semibold rounded-3xl bg-black py-2 px-3 text-center text-white text-[15px]">
-          Hair & styling
-        </span>
-        <span className="font-semibold text-[15px]">Nails</span>
-      </div>
-
-      <div className="flex flex-col items-start justify-center gap-y-5">
-        <label className="inline-flex items-center border-b border-border pb-5 w-full cursor-pointer">
-          <input type="checkbox" className="text-blue-600 h-5 w-5" />
-          <span className="ml-4 text-4ark font-semibold">All services (5)</span>
+      <div className="flex flex-col items-center justify-center gap-y-5 w-full mt-5">
+        <label className="block border-b border-border pb-2 w-full">
+          <span className="text-dark font-bold">Select a Service</span>
+          <select
+            className="form-select mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+            defaultValue=""
+            onChange={(e) => {
+              setServiceId(e.target.value);
+            }}
+          >
+            <option disabled value="">
+              Choose...
+            </option>
+            {services.map((category) => (
+              <optgroup label={`${category.name}`} key={category.categoryId}>
+                {category.services.map((service) => (
+                  <option value={service.id} key={service.id}>
+                    {service.name} - 45min
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
         </label>
-        <ul className="w-full">
-          {services.map((category) => (
-            <li
-              className="flex flex-col gap-y-10 w-full mt-5"
-              key={category.categoryId}
-            >
-              <label className="inline-flex items-center border-b border-border pb-5 cursor-pointer w-full">
-                <input
-                  type="checkbox"
-                  className="text-blue-600 h-5 w-5"
-                  checked={category.isChecked}
-                />
-                <span className="ml-4 text-dark font-bold">
-                  {category.name} (4)
-                </span>
-              </label>
-              {category.services.map((service: ServiceType) => (
-                <label
-                  className="inline-flex items-start flex-col cursor-pointer"
-                  key={service.id}
-                >
-                  <div className="flex flex-row items-center">
-                    <input
-                      type="checkbox"
-                      className="text-blue-600 h-5 w-5"
-                      checked={category.isChecked}
-                      onChange={(e) => {
-                        handleServiceChange(
-                          service.id,
-                          category.categoryId,
-                          e.target.checked
-                        );
-                      }}
-                    />
-                    <div className="flex flex-col">
-                      <span className="ml-4 text-dark font-medium">
-                        {service.name}
-                      </span>
-                      <span className="ml-4 text-sm font-medium text-gray">
-                        45min
-                      </span>
-                    </div>
-                  </div>
-                  <div className="bg-border h-[1px] mt-5 ml-7 w-full"></div>
-                </label>
-              ))}
-            </li>
-          ))}
-        </ul>
+
+        <button className="btn-secondary mt-7" onClick={handleServiceAssign} type="button">
+          Assign service
+        </button>
       </div>
     </>
   );
