@@ -45,6 +45,29 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
       console.error(error);
     }
   };
+  const updateCategory = async (
+    id: string,
+    name: string,
+    color: string,
+    desc: string
+  ) => {
+    try {
+      const category = { id, name, color, desc };
+      const res = await fetch("https://localhost:7121/api/servicecategory", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(category),
+      });
+      if (!res.ok) {
+        throw new Error(`Failed to update category, ${res.status}`);
+      }
+      const json = await res.json();
+      // setCategories((prev) => [...prev, json]);
+      console.log(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const createService = async (
     name: string,
     desc: string,
@@ -124,12 +147,37 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
       console.error(error);
     }
   };
+  const deleteCategory = async (id: string) => {
+    try {
+      const res = await fetch(
+        `https://localhost:7121/api/servicecategory/${id}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(id),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error(
+          `Failed to delete category, status code: ${res.status}`
+        );
+      }
+
+      const json = await res.json();
+      console.log(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <serviceContext.Provider
       value={{
         services,
         setServices,
         createCategory,
+        updateCategory,
+        deleteCategory,
         deleteService,
         createService,
         updateService,

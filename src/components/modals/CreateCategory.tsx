@@ -2,20 +2,31 @@ import CancelSvg from "../svgs/CancelSvg";
 import Input from "../Input";
 import { useService } from "../../hooks/useService";
 import { FormEvent, useState } from "react";
+import { CategoryType } from "../../shared/ServiceType";
 
 export default function CreateCategory({
   toggleModal,
+  selectedCategory,
 }: {
   toggleModal: () => void;
+  selectedCategory: CategoryType;
 }) {
-  const { createCategory } = useService()!;
-  const [name, setName] = useState("");
-  const [color, setColor] = useState("");
-  const [desc, setDesc] = useState("");
+  const { createCategory, updateCategory } = useService()!;
+  const [name, setName] = useState(
+    selectedCategory ? selectedCategory.name : ""
+  );
+  const [color, setColor] = useState(
+    selectedCategory ? selectedCategory.color : ""
+  );
+  const [desc, setDesc] = useState(
+    selectedCategory ? selectedCategory.description : ""
+  );
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createCategory(name, color, desc);
+    selectedCategory
+      ? updateCategory(selectedCategory.categoryId, name, color, desc)
+      : createCategory(name, color, desc);
   };
   return (
     <>
@@ -37,7 +48,7 @@ export default function CreateCategory({
               type="text"
               placeholder="e.g Hair Services"
               onChange={(newValue) => setName(newValue)}
-              value=""
+              value={name}
             />
           </label>
           <label>
@@ -46,7 +57,7 @@ export default function CreateCategory({
               type="text"
               placeholder="e.g Blue"
               onChange={(newValue) => setColor(newValue)}
-              value=""
+              value={color}
             />
           </label>
           <label>
@@ -55,12 +66,12 @@ export default function CreateCategory({
               type="textarea"
               placeholder=""
               onChange={(newValue) => setDesc(newValue)}
-              value=""
+              value={desc}
             />
           </label>
           <div className="border-border border-t flex justify-end items-center mt-5">
             <button className="btn-primary mt-5" type="submit">
-              <span>Add</span>
+              <span>Save</span>
             </button>
           </div>
         </form>
