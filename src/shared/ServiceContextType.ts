@@ -26,4 +26,6 @@ export type ServiceContextType = {
   ) => void;
   deleteService: (id: string) => void;
   deleteCategory: (id: string) => void;
+  selectedEmployee: any;
+  setSelectedEmployee: any;
 };

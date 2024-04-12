@@ -1,33 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import User from "../components/User";
 import { useEffect, useState } from "react";
+import { useEmployee } from "../hooks/useEmployee";
 export default function Team() {
-  const [team, setTeam] = useState([]);
   const navigate = useNavigate();
-
+  const { employees, setSelectedEmployee } = useEmployee()!;
   const handleClick = () => {
     navigate("add/profile");
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch("https://localhost:7121/api/employee");
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-
-        const json = await res.json();
-        setTeam(json.data);
-        console.log(team);
-        console.log(json);
-      } catch (error: any) {
-        console.error("Fetch error: " + error.message);
-      }
-    };
-
-    fetchData();
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className="w-full flex flex-col gap-y-5">
@@ -55,14 +37,19 @@ export default function Team() {
         </ul>
 
         <ul className="mt-3 flex flex-col gap-y-5">
-          {team.map((member: any) => (
-            <Link to={"add/profile"} state={{ member }}>
-              <li key={member.id}>
+          {employees.map((employee: any) => (
+            <Link
+              to={"add/profile"}
+              onClick={() => {
+                setSelectedEmployee(employee);
+              }}
+            >
+              <li key={employee.id}>
                 <User
-                  name={member.firstName}
-                  lastName={member.lastName}
-                  number={member.phoneNumber}
-                  email={member.email}
+                  name={employee.firstName}
+                  lastName={employee.lastName}
+                  number={employee.phoneNumber}
+                  email={employee.email}
                   review=""
                 />
               </li>

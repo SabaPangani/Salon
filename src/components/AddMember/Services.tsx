@@ -10,7 +10,7 @@ interface ProfileContextType {
   serviceId: string;
 }
 export default function Services() {
-  const { services } = useService()!;
+  const { services, selectedEmployee } = useService()!;
   const { setServiceId, serviceId } = useOutletContext() as ProfileContextType;
   const { state } = useLocation();
   console.log(state)

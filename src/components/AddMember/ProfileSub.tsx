@@ -1,5 +1,6 @@
 import { useLocation, useOutletContext } from "react-router-dom";
 import Input from "../Input";
+import { useEmployee } from "../../hooks/useEmployee";
 
 interface ProfileContextType {
   setName: (name: string) => void;
@@ -13,7 +14,7 @@ export default function ProfileSub() {
 
   const { setName, setLastName, setEmail, setNumber, setJobTitle } =
     useOutletContext() as ProfileContextType;
-  const { state } = useLocation();
+  const { selectedEmployee } = useEmployee()!;
 
   return (
     <>
@@ -31,7 +32,7 @@ export default function ProfileSub() {
             type="text"
             placeholder=""
             onChange={(newValue) => setName(newValue)}
-            value={state?.member ? state?.member.firstName : ""}
+            value={selectedEmployee ? selectedEmployee.firstName : ""}
           />
         </div>
         <div className="flex flex-col w-[350px]">
@@ -42,7 +43,7 @@ export default function ProfileSub() {
             onChange={(e) => {
               setLastName(e);
             }}
-            value={state?.member ? state?.member.lastName : ""}
+            value={selectedEmployee ? selectedEmployee.lastName : ""}
           />
         </div>
         <div className="flex flex-col w-[350px]">
@@ -53,7 +54,7 @@ export default function ProfileSub() {
             onChange={(e) => {
               setEmail(e);
             }}
-            value={state?.member ? state?.member.email : ""}
+            value={selectedEmployee ? selectedEmployee.email : ""}
           />
         </div>
         <div className="flex flex-col w-[350px]">
@@ -64,7 +65,7 @@ export default function ProfileSub() {
             onChange={(e) => {
               setNumber(e);
             }}
-            value={state?.member ? state?.member.phoneNumber : ""}
+            value={selectedEmployee ? selectedEmployee.phoneNumber : ""}
           />
         </div>
 
@@ -88,7 +89,7 @@ export default function ProfileSub() {
             onChange={(e) => {
               setJobTitle(e);
             }}
-            value={state?.member ? state?.member.jobTitle : ""}
+            value={selectedEmployee ? selectedEmployee.jobTitle : ""}
           />
         </div>
       </div>

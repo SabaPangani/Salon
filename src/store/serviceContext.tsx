@@ -10,6 +10,7 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   // const [categories, setCategories] = useState<CategoryType[]>([]);
   const [services, setServices] = useState<CategoryType[]>([]);
+  const [selectedEmployee, setSelectedEmployee] = useState();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -181,6 +182,8 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
         deleteService,
         createService,
         updateService,
+        selectedEmployee,
+        setSelectedEmployee
       }}
     >
       {children}
