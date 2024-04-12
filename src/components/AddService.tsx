@@ -12,7 +12,6 @@ export default function AddService() {
   const [afterCareDesc, setAfterCareDesc] = useState("");
   const [category, setCategory] = useState<CategoryType>();
   const toggleModal = () => setShowModal((prev) => !prev);
-  const navigate = useNavigate();
   const { createService, updateService, deleteService } = useService()!;
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

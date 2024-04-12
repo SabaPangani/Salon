@@ -1,4 +1,4 @@
-import { useOutletContext } from "react-router-dom";
+import { useLocation, useOutletContext } from "react-router-dom";
 import Input from "../Input";
 
 interface ProfileContextType {
@@ -13,6 +13,8 @@ export default function ProfileSub() {
 
   const { setName, setLastName, setEmail, setNumber, setJobTitle } =
     useOutletContext() as ProfileContextType;
+  const { state } = useLocation();
+
   return (
     <>
       <div>
@@ -29,7 +31,7 @@ export default function ProfileSub() {
             type="text"
             placeholder=""
             onChange={(newValue) => setName(newValue)}
-            value=""
+            value={state?.member ? state?.member.firstName : ""}
           />
         </div>
         <div className="flex flex-col w-[350px]">
@@ -40,7 +42,7 @@ export default function ProfileSub() {
             onChange={(e) => {
               setLastName(e);
             }}
-            value=""
+            value={state?.member ? state?.member.lastName : ""}
           />
         </div>
         <div className="flex flex-col w-[350px]">
@@ -51,7 +53,7 @@ export default function ProfileSub() {
             onChange={(e) => {
               setEmail(e);
             }}
-            value=""
+            value={state?.member ? state?.member.email : ""}
           />
         </div>
         <div className="flex flex-col w-[350px]">
@@ -62,7 +64,7 @@ export default function ProfileSub() {
             onChange={(e) => {
               setNumber(e);
             }}
-            value=""
+            value={state?.member ? state?.member.phoneNumber : ""}
           />
         </div>
 
@@ -86,7 +88,7 @@ export default function ProfileSub() {
             onChange={(e) => {
               setJobTitle(e);
             }}
-            value=""
+            value={state?.member ? state?.member.jobTitle : ""}
           />
         </div>
       </div>

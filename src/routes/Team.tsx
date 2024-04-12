@@ -56,7 +56,7 @@ export default function Team() {
 
         <ul className="mt-3 flex flex-col gap-y-5">
           {team.map((member: any) => (
-            <Link to={"add/services"} state={{ id: member.id }}>
+            <Link to={"add/profile"} state={{ member }}>
               <li key={member.id}>
                 <User
                   name={member.firstName}
