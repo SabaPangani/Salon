@@ -1,6 +1,7 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import CancelSvg from "../svgs/CancelSvg";
 import { FormEvent, useState } from "react";
+import { useEmployee } from "../../hooks/useEmployee";
 
 export default function AddMember() {
   const navigate = useNavigate();
@@ -10,36 +11,24 @@ export default function AddMember() {
   const [number, setNumber] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [serviceId, setServiceId] = useState("");
+  const { createEmployee, updateEmployee, selectedEmployee } = useEmployee()!;
 
   const handleClick = () => {
     navigate("/team");
   };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const res = await fetch("https://localhost:7121/api/employee", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: name,
-          lastName: lastName,
-          email: email,
-          phoneNumber: number,
-          color: "string",
-          jobTitle: jobTitle,
-          serviceId: serviceId,
-          startDate: "2024-03-29",
-          endDate: "2024-03-29",
-        }),
-      });
-      if (!res.ok) {
-        throw new Error(`Failed to add team member ${res.status}`);
-      }
-      const json = await res.json();
-      console.log(json);
-    } catch (error) {
-      console.error(error);
-    }
+    selectedEmployee
+      ? createEmployee(name, lastName, email, number, jobTitle, serviceId)
+      : updateEmployee(
+          selectedEmployee?.id,
+          name,
+          lastName,
+          email,
+          number,
+          jobTitle,
+          serviceId
+        );
   };
   const getNavLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive

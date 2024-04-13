@@ -1,4 +1,5 @@
 export type EmployeeType = {
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -10,7 +11,8 @@ export type EmployeeType = {
   endDate: Date;
 };
 
-export const EmptyEmployee = {
+export const EmptyEmployee: EmployeeType = {
+  id: "",
   firstName: "",
   lastName: "",
   email: "",

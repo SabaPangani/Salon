@@ -30,9 +30,79 @@ export const EmployeeProvider: React.FC<{ children: React.ReactNode }> = ({
     fetchData();
   }, []);
 
+  const createEmployee = async (
+    fname: string,
+    lastName: string,
+    email: string,
+    number: string,
+    jobTitle: string,
+    serviceId: string
+  ) => {
+    try {
+      const res = await fetch("https://localhost:7121/api/employee", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: fname,
+          lastName: lastName,
+          email: email,
+          phoneNumber: number,
+          color: "string",
+          jobTitle: jobTitle,
+          serviceId: serviceId,
+          startDate: "2024-03-29",
+          endDate: "2024-03-29",
+        }),
+      });
+      if (!res.ok) {
+        throw new Error(`Failed to add team member ${res.status}`);
+      }
+      const json = await res.json();
+      console.log(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const updateEmployee = async (
+    id: string,
+    fname: string,
+    lastName: string,
+    email: string,
+    number: string,
+    jobTitle: string,
+    serviceId: string
+  ) => {
+    try {
+      const res = await fetch("https://localhost:7121/api/employee", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id,
+          firstName: fname,
+          lastName: lastName,
+          email: email,
+          phoneNumber: number,
+          color: "string",
+          jobTitle: jobTitle,
+          serviceId: serviceId,
+          startDate: "2024-03-29",
+          endDate: "2024-03-29",
+        }),
+      });
+      if (!res.ok) {
+        throw new Error(`Failed to add team member ${res.status}`);
+      }
+      const json = await res.json();
+      console.log(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <employeeContext.Provider
       value={{
+        createEmployee,
+        updateEmployee,
         selectedEmployee,
         setSelectedEmployee,
         employees,
