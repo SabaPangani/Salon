@@ -3,6 +3,7 @@ import { EmployeeContextType } from "../shared/EmployeeContextType";
 import { EmployeeType } from "../shared/EmployeeType";
 import { EmptyEmployee } from "../shared/EmployeeType";
 
+export const API_URL = import.meta.env.VITE_REACT_APP_API_URL
 export const employeeContext = createContext<EmployeeContextType | null>(null);
 
 export const EmployeeProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -13,9 +14,10 @@ export const EmployeeProvider: React.FC<{ children: React.ReactNode }> = ({
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
+    console.log(API_URL)
     const fetchData = async () => {
       try {
-        const res = await fetch("https://localhost:7121/api/employee");
+        const res = await fetch(`${API_URL}/employee`);
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
@@ -39,7 +41,7 @@ export const EmployeeProvider: React.FC<{ children: React.ReactNode }> = ({
     serviceId: string
   ) => {
     try {
-      const res = await fetch("https://localhost:7121/api/employee", {
+      const res = await fetch(`${API_URL}/employee`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -73,7 +75,7 @@ export const EmployeeProvider: React.FC<{ children: React.ReactNode }> = ({
     serviceId: string
   ) => {
     try {
-      const res = await fetch("https://localhost:7121/api/employee", {
+      const res = await fetch(`${API_URL}/employee`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

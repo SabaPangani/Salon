@@ -43,8 +43,9 @@ export default function Team() {
               onClick={() => {
                 setSelectedEmployee(employee);
               }}
+              key={employee.id}
             >
-              <li key={employee.id}>
+              <li>
                 <User
                   name={employee.firstName}
                   lastName={employee.lastName}

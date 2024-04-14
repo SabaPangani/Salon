@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { ServiceContextType } from "../shared/ServiceContextType";
 import { CategoryType, ServiceType } from "../shared/ServiceType";
-import { useNavigate } from "react-router-dom";
+import { API_URL } from "./employeeContext";
 
 export const serviceContext = createContext<ServiceContextType | null>(null);
 
@@ -14,7 +14,7 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("https://localhost:7121/api/service");
+        const res = await fetch(`${API_URL}/service`);
         if (!res.ok) {
           throw new Error(`Failed to fetch services, ${res.status}`);
         }
@@ -31,7 +31,7 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
   const createCategory = async (name: string, color: string, desc: string) => {
     try {
       const category = { name, color, desc };
-      const res = await fetch("https://localhost:7121/api/servicecategory", {
+      const res = await fetch(`${API_URL}/servicecategory`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(category),
@@ -54,7 +54,7 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
   ) => {
     try {
       const category = { id, name, color, desc };
-      const res = await fetch("https://localhost:7121/api/servicecategory", {
+      const res = await fetch(`${API_URL}/servicecategory`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(category),
@@ -83,7 +83,7 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
         categoryId,
       };
       console.log(service);
-      const res = await fetch("https://localhost:7121/api/service", {
+      const res = await fetch(`${API_URL}/service`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(service),
@@ -114,7 +114,7 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
       };
       console.log(service);
 
-      const res = await fetch(`https://localhost:7121/api/service`, {
+      const res = await fetch(`${API_URL}/service`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(service),
@@ -132,7 +132,7 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
   };
   const deleteService = async (id: string) => {
     try {
-      const res = await fetch(`https://localhost:7121/api/service/${id}`, {
+      const res = await fetch(`${API_URL}/service/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(id),
@@ -151,7 +151,7 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
   const deleteCategory = async (id: string) => {
     try {
       const res = await fetch(
-        `https://localhost:7121/api/servicecategory/${id}`,
+        `${API_URL}/servicecategory/${id}`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
