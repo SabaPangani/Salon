@@ -3,7 +3,7 @@ import { EmployeeContextType } from "../shared/EmployeeContextType";
 import { EmployeeType } from "../shared/EmployeeType";
 import { EmptyEmployee } from "../shared/EmployeeType";
 
-export const API_URL = import.meta.env.VITE_REACT_APP_API_URL
+export const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 export const employeeContext = createContext<EmployeeContextType | null>(null);
 
 export const EmployeeProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -14,7 +14,7 @@ export const EmployeeProvider: React.FC<{ children: React.ReactNode }> = ({
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    console.log(API_URL)
+    console.log(API_URL);
     const fetchData = async () => {
       try {
         const res = await fetch(`${API_URL}/employee`);
@@ -31,6 +31,19 @@ export const EmployeeProvider: React.FC<{ children: React.ReactNode }> = ({
 
     fetchData();
   }, []);
+
+  const filterEmployees = (searchTerm: string) => {
+    if (!searchTerm) return employees;
+    return employees.filter((employee: EmployeeType) => {
+      const term = searchTerm.toLowerCase();
+      return (
+        employee.firstName.toLowerCase().includes(term) ||
+        employee.lastName.toLowerCase().includes(term) ||
+        employee.email.toLowerCase().includes(term) ||
+        employee.phoneNumber.includes(term)
+      );
+    });
+  };
 
   const createEmployee = async (
     fname: string,
@@ -108,6 +121,7 @@ export const EmployeeProvider: React.FC<{ children: React.ReactNode }> = ({
         selectedEmployee,
         setSelectedEmployee,
         employees,
+        filterEmployees
       }}
     >
       {children}

@@ -5,7 +5,7 @@ import { useEmployee } from "../hooks/useEmployee";
 
 export default function Team() {
   const navigate = useNavigate();
-  const { employees, setSelectedEmployee } = useEmployee()!;
+  const { employees, setSelectedEmployee, filterEmployees } = useEmployee()!;
   const [searchTerm, setSearchTerm] = useState(""); 
 
   const handleClick = () => {
@@ -16,14 +16,7 @@ export default function Team() {
     setSearchTerm(event.target.value.toLowerCase());
   };
 
-  const filteredEmployees = employees.filter((employee) => {
-    return (
-      employee.firstName.toLowerCase().includes(searchTerm) ||
-      employee.lastName.toLowerCase().includes(searchTerm) ||
-      employee.email.toLowerCase().includes(searchTerm) ||
-      employee.phoneNumber.includes(searchTerm)
-    );
-  });
+  const filteredEmployees = filterEmployees(searchTerm)
 
 
   return (

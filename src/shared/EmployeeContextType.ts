@@ -22,4 +22,5 @@ export type EmployeeContextType = {
   selectedEmployee: EmployeeType;
   setSelectedEmployee: SetStateAction<Dispatch<EmployeeType>>;
   employees: EmployeeType[];
+  filterEmployees: (searchTerm: string) => EmployeeType[];
 };
