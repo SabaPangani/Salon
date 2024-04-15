@@ -1,21 +1,35 @@
 import { Link, useNavigate } from "react-router-dom";
 import User from "../components/User";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useEmployee } from "../hooks/useEmployee";
+
 export default function Team() {
   const navigate = useNavigate();
   const { employees, setSelectedEmployee } = useEmployee()!;
+  const [searchTerm, setSearchTerm] = useState(""); 
+
   const handleClick = () => {
     navigate("add/profile");
   };
 
-  useEffect(() => {}, []);
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value.toLowerCase());
+  };
+
+  const filteredEmployees = employees.filter((employee) => {
+    return (
+      employee.firstName.toLowerCase().includes(searchTerm) ||
+      employee.lastName.toLowerCase().includes(searchTerm) ||
+      employee.email.toLowerCase().includes(searchTerm) ||
+      employee.phoneNumber.includes(searchTerm)
+    );
+  });
+
 
   return (
     <div className="w-full flex flex-col gap-y-5">
       <header className="flex flex-row items-center justify-between">
         <h1 className="text-3xl font-semibold">Team members</h1>
-
         <button className="btn-primary" onClick={handleClick}>
           Add
         </button>
@@ -26,6 +40,8 @@ export default function Team() {
           type="text"
           className="input"
           placeholder="Search team members"
+          value={searchTerm}
+          onChange={handleSearchChange}
         />
       </div>
 
@@ -37,7 +53,7 @@ export default function Team() {
         </ul>
 
         <ul className="mt-3 flex flex-col gap-y-5">
-          {employees.map((employee: any) => (
+          {filteredEmployees.map((employee: any) => (
             <Link
               to={"add/profile"}
               onClick={() => {
