@@ -2,10 +2,11 @@ import { Link, useNavigate } from "react-router-dom";
 import User from "../components/User";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useEmployee } from "../hooks/useEmployee";
+import { EmployeeType } from "../shared/EmployeeType";
 
 export default function Team() {
   const navigate = useNavigate();
-  const { employees, setSelectedEmployee, filterEmployees } = useEmployee()!;
+  const { setSelectedEmployee, filterEmployees } = useEmployee()!;
   const [searchTerm, setSearchTerm] = useState(""); 
 
   const handleClick = () => {
@@ -46,7 +47,7 @@ export default function Team() {
         </ul>
 
         <ul className="mt-3 flex flex-col gap-y-5">
-          {filteredEmployees.map((employee: any) => (
+          {filteredEmployees.map((employee: EmployeeType) => (
             <Link
               to={"add/profile"}
               onClick={() => {

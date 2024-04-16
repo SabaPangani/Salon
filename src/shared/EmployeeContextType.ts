@@ -20,7 +20,7 @@ export type EmployeeContextType = {
     serviceId: string
   ) => void;
   selectedEmployee: EmployeeType;
-  setSelectedEmployee: SetStateAction<Dispatch<EmployeeType>>;
+  setSelectedEmployee: Dispatch<SetStateAction<EmployeeType>>;
   employees: EmployeeType[];
   filterEmployees: (searchTerm: string) => EmployeeType[];
 };
