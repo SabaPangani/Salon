@@ -1,4 +1,4 @@
-import { useLocation, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import Input from "../Input";
 import { useEmployee } from "../../hooks/useEmployee";
 

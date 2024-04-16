@@ -3,13 +3,11 @@ export default function User({
   lastName,
   email,
   number,
-  review,
 }: {
   name: string;
   lastName: string;
   email: string;
   number: string;
-  review: string;
 }) {
   return (
     <div className="flex flex-row justify-between items-center px-4 cursor-pointer">

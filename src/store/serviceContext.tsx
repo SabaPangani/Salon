@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { ServiceContextType } from "../shared/ServiceContextType";
-import { CategoryType, ServiceType } from "../shared/ServiceType";
+import { CategoryType } from "../shared/ServiceType";
 import { API_URL } from "./employeeContext";
 
 export const serviceContext = createContext<ServiceContextType | null>(null);

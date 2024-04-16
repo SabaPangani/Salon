@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { CategoryType, ServiceType } from "./ServiceType";
+import { CategoryType } from "./ServiceType";
 
 export type ServiceContextType = {
   services: CategoryType[];

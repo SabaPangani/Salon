@@ -3,7 +3,7 @@ import Input from "./Input";
 import CategoryModal from "./modals/CategoryModal";
 import { useService } from "../hooks/useService";
 import { CategoryType } from "../shared/ServiceType";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 export default function AddService() {
   const { state } = useLocation();
   const [showModal, setShowModal] = useState(false);

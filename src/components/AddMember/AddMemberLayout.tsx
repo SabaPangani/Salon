@@ -2,6 +2,7 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import CancelSvg from "../svgs/CancelSvg";
 import { FormEvent, useState } from "react";
 import { useEmployee } from "../../hooks/useEmployee";
+import { EmployeeType } from "../../shared/EmployeeType";
 
 export default function AddMember() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function AddMember() {
     selectedEmployee
       ? createEmployee(name, lastName, email, number, jobTitle, serviceId)
       : updateEmployee(
-          selectedEmployee?.id,
+          (selectedEmployee as EmployeeType).id,
           name,
           lastName,
           email,

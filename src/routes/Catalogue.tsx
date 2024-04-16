@@ -7,7 +7,7 @@ import ListSvg from "../components/svgs/ListSvg";
 import { CategoryType } from "../shared/ServiceType";
 
 export default function Catalogue() {
-  const { services, setServices, deleteCategory } = useService()!;
+  const { services, deleteCategory } = useService()!;
   const [showDropdown, setShowDropdown] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [activeCatDropdownId, setActiveCatDropdownId] = useState("");
@@ -18,8 +18,7 @@ export default function Catalogue() {
       ? setActiveCatDropdownId("")
       : setActiveCatDropdownId(categoryId);
   };
-  const toggleModal = (category: CategoryType | null = null) =>
-    setShowModal((prev) => !prev);
+  const toggleModal = () => setShowModal((prev) => !prev);
 
   console.log(services);
   return (

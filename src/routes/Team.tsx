@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import User from "../components/User";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useEmployee } from "../hooks/useEmployee";
 import { EmployeeType } from "../shared/EmployeeType";
 
@@ -61,7 +61,6 @@ export default function Team() {
                   lastName={employee.lastName}
                   number={employee.phoneNumber}
                   email={employee.email}
-                  review=""
                 />
               </li>
             </Link>
