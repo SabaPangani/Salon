@@ -71,7 +71,7 @@ export default function Catalogue() {
                 </div>
 
                 {category.categoryId === activeCatDropdownId && (
-                  <div className="absolute -right-10 top-10 bg-white rounded-md shadow-md border-border border py-2 px-3 text-sm ">
+                  <div className="absolute -right-10 top-10 bg-white rounded-md shadow-md border-border border py-2 px-3 text-sm z-10">
                     <div
                       className="cursor-pointer"
                       onClick={() => {
@@ -100,13 +100,14 @@ export default function Catalogue() {
                   }}
                   state={{ category, service }}
                 >
-                  <div className="flex justify-between items-center border-border border py-4 px-5 rounded-sm cursor-pointer">
-                    <h4 className="font-medium text-lg">{service.name}</h4>
-                    <p className="text-gray min-w-[95px] text-right text-sm font-medium">
-                      {service.duration}
-                    </p>
-                    <p className="font-semibold">{service.price}</p>
-                  </div>
+                    <div className="flex justify-between items-center border-border border py-4 px-5 cursor-pointer relative">
+                      <div className="bg-blue-500 w-1 h-full absolute left-0"></div>
+                      <h4 className="font-medium text-lg">{service.name}</h4>
+                      <p className="text-gray min-w-[95px] text-right text-sm font-medium">
+                        {service.duration}
+                      </p>
+                      <p className="font-semibold">{service.price}</p>
+                    </div>
                 </Link>
               ))}
             </li>

@@ -3,7 +3,8 @@ import Input from "./Input";
 import CategoryModal from "./modals/CategoryModal";
 import { useService } from "../hooks/useService";
 import { CategoryType } from "../shared/ServiceType";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import CancelSvg from "./svgs/CancelSvg";
 export default function AddService() {
   const { state } = useLocation();
   const [showModal, setShowModal] = useState(false);
@@ -31,11 +32,32 @@ export default function AddService() {
 
   return (
     <>
-      <h1 className="text-center text-2xl font-semibold mt-16">
-        Add a new single service
-      </h1>
-      <div>
-        <div className="mx-auto mt-20 w-[900px] border border-border rounded-md p-5 bg-white">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-y-3">
+        <div className="flex flex-row items-center justify-between my-5 px-24">
+          <Link to={"/catalogue"}>
+            <CancelSvg />
+          </Link>
+          <h1 className="text-2xl font-semibold">
+            {state?.service.id ? "Edit a service" : "Add a new service"}
+          </h1>
+          <div className="">
+            {state?.service.id && (
+              <button
+                className="btn-primary bg-red mr-5"
+                onClick={() => {
+                  deleteService(state?.service.id);
+                }}
+                type="button"
+              >
+                Delete
+              </button>
+            )}
+            <button className="btn-primary" type="submit">
+              Save
+            </button>
+          </div>
+        </div>
+        <div className="mx-auto mt-20 w-[600px] border border-border rounded-md p-5 bg-white">
           <header className="border-b border-border px-2 pb-1">
             <h1 className="text-2xl font-semibold">Basic info</h1>
             <p className="text-[15px]">
@@ -43,7 +65,7 @@ export default function AddService() {
             </p>
           </header>
 
-          <form className="pr-96 pl-2 mt-5" onSubmit={handleSubmit}>
+          <div className="pr-24 pl-2 mt-5">
             <label>
               <span className="text-sm font-semibold">Service name</span>
               <Input
@@ -97,23 +119,10 @@ export default function AddService() {
                 }
               />
             </label>
-
-            <button className="btn-primary" type="submit">
-              Save
-            </button>
-            <button
-              className="btn-primary bg-red"
-              onClick={() => {
-                deleteService(state?.service.id);
-              }}
-              type="button"
-            >
-              Delete
-            </button>
-          </form>
+          </div>
         </div>
         <div>
-          <div className="mx-auto my-5 w-[900px] border border-border rounded-md p-5 bg-white">
+          <div className="mx-auto my-5 w-[600px] border border-border rounded-md p-5 bg-white">
             <header className="border-b border-border px-2 pb-1">
               <h1 className="text-2xl font-semibold">Team</h1>
               <p className="text-[15px]">
@@ -123,11 +132,14 @@ export default function AddService() {
             <div>{/* team members here */}</div>
           </div>
         </div>
-      </div>
 
-      {showModal && (
-        <CategoryModal toggleModal={toggleModal} onSetCategory={setCategory} />
-      )}
+        {showModal && (
+          <CategoryModal
+            toggleModal={toggleModal}
+            onSetCategory={setCategory}
+          />
+        )}
+      </form>
     </>
   );
 }
