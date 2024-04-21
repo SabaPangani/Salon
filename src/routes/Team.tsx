@@ -7,7 +7,7 @@ import { EmployeeType } from "../shared/EmployeeType";
 export default function Team() {
   const navigate = useNavigate();
   const { setSelectedEmployee, filterEmployees } = useEmployee()!;
-  const [searchTerm, setSearchTerm] = useState(""); 
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleClick = () => {
     navigate("add/profile");
@@ -17,8 +17,7 @@ export default function Team() {
     setSearchTerm(event.target.value.toLowerCase());
   };
 
-  const filteredEmployees = filterEmployees(searchTerm)
-
+  const filteredEmployees = filterEmployees(searchTerm);
 
   return (
     <div className="w-full flex flex-col gap-y-5">
@@ -53,6 +52,7 @@ export default function Team() {
               onClick={() => {
                 setSelectedEmployee(employee);
               }}
+              state={{ employee }}
               key={employee.id}
             >
               <li>

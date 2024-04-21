@@ -1,6 +1,6 @@
-import { useOutletContext } from "react-router-dom";
+import { useLocation, useOutletContext } from "react-router-dom";
 import Input from "../Input";
-import { useEmployee } from "../../hooks/useEmployee";
+// import { useEmployee } from "../../hooks/useEmployee";
 
 interface ProfileContextType {
   setName: (name: string) => void;
@@ -14,7 +14,7 @@ export default function ProfileSub() {
 
   const { setName, setLastName, setEmail, setNumber, setJobTitle } =
     useOutletContext() as ProfileContextType;
-  const { selectedEmployee } = useEmployee()!;
+  const { state } = useLocation();
 
   return (
     <>
@@ -32,7 +32,7 @@ export default function ProfileSub() {
             type="text"
             placeholder=""
             onChange={(newValue) => setName(newValue)}
-            value={selectedEmployee ? selectedEmployee.firstName : ""}
+            value={state?.employee ? state.employee.firstName : ""}
           />
         </div>
         <div className="flex flex-col w-[350px]">
@@ -43,7 +43,7 @@ export default function ProfileSub() {
             onChange={(e) => {
               setLastName(e);
             }}
-            value={selectedEmployee ? selectedEmployee.lastName : ""}
+            value={state?.employee ? state.employee.lastName : ""}
           />
         </div>
         <div className="flex flex-col w-[350px]">
@@ -54,7 +54,7 @@ export default function ProfileSub() {
             onChange={(e) => {
               setEmail(e);
             }}
-            value={selectedEmployee ? selectedEmployee.email : ""}
+            value={state?.employee ? state.employee.email : ""}
           />
         </div>
         <div className="flex flex-col w-[350px]">
@@ -65,7 +65,7 @@ export default function ProfileSub() {
             onChange={(e) => {
               setNumber(e);
             }}
-            value={selectedEmployee ? selectedEmployee.phoneNumber : ""}
+            value={state?.employee ? state.employee.phoneNumber : ""}
           />
         </div>
 
@@ -89,7 +89,7 @@ export default function ProfileSub() {
             onChange={(e) => {
               setJobTitle(e);
             }}
-            value={selectedEmployee ? selectedEmployee.jobTitle : ""}
+            value={state?.employee ? state.employee.jobTitle : ""}
           />
         </div>
       </div>
