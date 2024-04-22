@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { EmployeeContextType } from "../shared/EmployeeContextType";
 import { EmployeeType } from "../shared/EmployeeType";
 import { EmptyEmployee } from "../shared/EmployeeType";
+import { ServiceType } from "../shared/ServiceType";
 
 export const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 export const employeeContext = createContext<EmployeeContextType | null>(null);
@@ -51,7 +52,7 @@ export const EmployeeProvider: React.FC<{ children: React.ReactNode }> = ({
     email: string,
     number: string,
     jobTitle: string,
-    serviceId: string
+    services: ServiceType[]
   ) => {
     try {
       const res = await fetch(`${API_URL}/employee`, {
@@ -64,7 +65,7 @@ export const EmployeeProvider: React.FC<{ children: React.ReactNode }> = ({
           phoneNumber: number,
           color: "string",
           jobTitle: jobTitle,
-          serviceId: serviceId,
+          services,
           startDate: "2024-03-29",
           endDate: "2024-03-29",
         }),
@@ -85,8 +86,20 @@ export const EmployeeProvider: React.FC<{ children: React.ReactNode }> = ({
     email: string,
     number: string,
     jobTitle: string,
-    serviceId: string
+    services: ServiceType[]
   ) => {
+    console.log({
+      id,
+      firstName: fname,
+      lastName: lastName,
+      email: email,
+      phoneNumber: number,
+      color: "string",
+      jobTitle: jobTitle,
+      services,
+      startDate: "2024-03-29",
+      endDate: "2024-03-29",
+    });
     try {
       const res = await fetch(`${API_URL}/employee`, {
         method: "PUT",
@@ -99,7 +112,7 @@ export const EmployeeProvider: React.FC<{ children: React.ReactNode }> = ({
           phoneNumber: number,
           color: "string",
           jobTitle: jobTitle,
-          serviceId: serviceId,
+          services,
           startDate: "2024-03-29",
           endDate: "2024-03-29",
         }),
@@ -121,7 +134,7 @@ export const EmployeeProvider: React.FC<{ children: React.ReactNode }> = ({
         selectedEmployee,
         setSelectedEmployee,
         employees,
-        filterEmployees
+        filterEmployees,
       }}
     >
       {children}

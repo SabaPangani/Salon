@@ -10,11 +10,9 @@ export type CategoryType = {
 export type ServiceType = {
   id: string;
   name: string;
-  type: string;
-  color: string;
-  isChecked: boolean;
   duration: string;
   price: string;
+  percentage: string;
   description: string;
   aftercareDescription: string;
   categoryId: string;

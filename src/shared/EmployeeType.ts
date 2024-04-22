@@ -1,3 +1,5 @@
+import { ServiceType } from "./ServiceType";
+
 export type EmployeeType = {
   id: string;
   firstName: string;
@@ -9,6 +11,7 @@ export type EmployeeType = {
   serviceId: string;
   startDate: Date;
   endDate: Date;
+  services: ServiceType[];
 };
 
 export const EmptyEmployee: EmployeeType = {
@@ -22,4 +25,5 @@ export const EmptyEmployee: EmployeeType = {
   serviceId: "",
   startDate: new Date(),
   endDate: new Date(),
+  services: [],
 };

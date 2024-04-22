@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { EmployeeType } from "./EmployeeType";
+import { ServiceType } from "./ServiceType";
 
 export type EmployeeContextType = {
   createEmployee: (
@@ -8,7 +9,7 @@ export type EmployeeContextType = {
     email: string,
     number: string,
     jobTitle: string,
-    serviceId: string
+    services: ServiceType[]
   ) => void;
   updateEmployee: (
     id: string,
@@ -17,7 +18,7 @@ export type EmployeeContextType = {
     email: string,
     number: string,
     jobTitle: string,
-    serviceId: string
+    services: ServiceType[]
   ) => void;
   selectedEmployee: EmployeeType;
   setSelectedEmployee: Dispatch<SetStateAction<EmployeeType>>;

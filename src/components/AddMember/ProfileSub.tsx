@@ -1,20 +1,25 @@
 import { useLocation, useOutletContext } from "react-router-dom";
 import Input from "../Input";
-// import { useEmployee } from "../../hooks/useEmployee";
+import { EmployeeType } from "../../shared/EmployeeType";
+import { useEffect } from "react";
 
 interface ProfileContextType {
-  setName: (name: string) => void;
-  setLastName: (lastName: string) => void;
-  setEmail: (email: string) => void;
-  setNumber: (number: string) => void;
-  setJobTitle: (jobTitle: string) => void;
+  handleChange: any;
+  setEmployee: any;
+  formData: any;
+  employee: EmployeeType;
 }
 export default function ProfileSub() {
   const colors = ["#e4a6e6", "#e0b6e6", "#e1c6e6", "#e2d6e6", "#e3g6e6"];
 
-  const { setName, setLastName, setEmail, setNumber, setJobTitle } =
+  const { handleChange, setEmployee, formData, employee } =
     useOutletContext() as ProfileContextType;
   const { state } = useLocation();
+  useEffect(() => {
+    if (state?.employee) {
+      setEmployee(state.employee);
+    }
+  }, [state]);
 
   return (
     <>
@@ -31,8 +36,10 @@ export default function ProfileSub() {
           <Input
             type="text"
             placeholder=""
-            onChange={(newValue) => setName(newValue)}
-            value={state?.employee ? state.employee.firstName : ""}
+            onChange={(e) => {
+              handleChange("firstName")(e);
+            }}
+            value={employee ? employee.firstName : ""}
           />
         </div>
         <div className="flex flex-col w-[350px]">
@@ -41,9 +48,9 @@ export default function ProfileSub() {
             type="text"
             placeholder=""
             onChange={(e) => {
-              setLastName(e);
+              handleChange("lastName")(e);
             }}
-            value={state?.employee ? state.employee.lastName : ""}
+            value={employee ? employee.lastName : ""}
           />
         </div>
         <div className="flex flex-col w-[350px]">
@@ -52,9 +59,9 @@ export default function ProfileSub() {
             type="text"
             placeholder=""
             onChange={(e) => {
-              setEmail(e);
+              handleChange("email")(e);
             }}
-            value={state?.employee ? state.employee.email : ""}
+            value={employee ? employee.email : ""}
           />
         </div>
         <div className="flex flex-col w-[350px]">
@@ -63,9 +70,9 @@ export default function ProfileSub() {
             type="text"
             placeholder=""
             onChange={(e) => {
-              setNumber(e);
+              handleChange("number")(e);
             }}
-            value={state?.employee ? state.employee.phoneNumber : ""}
+            value={employee ? employee.phoneNumber : ""}
           />
         </div>
 
@@ -87,9 +94,9 @@ export default function ProfileSub() {
             type="text"
             placeholder=""
             onChange={(e) => {
-              setJobTitle(e);
+              handleChange("jobTitle")(e);
             }}
-            value={state?.employee ? state.employee.jobTitle : ""}
+            value={employee ? employee.jobTitle : ""}
           />
         </div>
       </div>

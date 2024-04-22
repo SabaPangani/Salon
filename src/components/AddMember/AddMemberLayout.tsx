@@ -1,36 +1,72 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import CancelSvg from "../svgs/CancelSvg";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useEmployee } from "../../hooks/useEmployee";
 import { EmployeeType } from "../../shared/EmployeeType";
 
 export default function AddMember() {
   const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [number, setNumber] = useState("");
-  const [jobTitle, setJobTitle] = useState("");
-  const [serviceId, setServiceId] = useState("");
-  const { createEmployee, updateEmployee, selectedEmployee } = useEmployee()!;
+  const [employee, setEmployee] = useState<EmployeeType>();
+  const { createEmployee, updateEmployee } = useEmployee()!;
+  const formInitialState = {
+    firstName: employee?.firstName ?? "",
+    lastName: employee?.lastName ?? "",
+    email: employee?.email ?? "",
+    number: employee?.phoneNumber ?? "",
+    jobTitle: employee?.jobTitle ?? "",
+    services: employee?.services ?? [],
+  };
+  const [formData, setFormData] = useState(formInitialState);
 
+  useEffect(() => {
+    if (employee) {
+      setFormData({
+        firstName: employee.firstName || "",
+        lastName: employee.lastName || "",
+        email: employee.email || "",
+        number: employee.phoneNumber || "",
+        jobTitle: employee.jobTitle || "",
+        services: employee.services || [],
+      });
+    }
+  }, [employee]);
+
+  const handleChange = (field: string) => (value: any) => {
+    setFormData({ ...formData, [field]: value });
+  };
   const handleClick = () => {
     navigate("/team");
   };
+  console.log(employee);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    selectedEmployee
-      ? createEmployee(name, lastName, email, number, jobTitle, serviceId)
-      : updateEmployee(
-          (selectedEmployee as EmployeeType).id,
-          name,
-          lastName,
-          email,
-          number,
-          jobTitle,
-          serviceId
+    employee
+      ? updateEmployee(
+          employee.id,
+          formData.firstName,
+          formData.lastName,
+          formData.email,
+          formData.number,
+          formData.jobTitle,
+          formData.services
+        )
+      : createEmployee(
+          formData.firstName,
+          formData.lastName,
+          formData.email,
+          formData.number,
+          formData.jobTitle,
+          formData.services
         );
+    console.log(
+      formData.firstName,
+      formData.lastName,
+      formData.email,
+      formData.number,
+      formData.jobTitle,
+      formData.services
+    );
   };
   const getNavLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive
@@ -44,7 +80,7 @@ export default function AddMember() {
             <CancelSvg />
           </span>
           <button type="submit" className="btn-primary">
-            Add
+            {employee ? "Save" : "Add"}
           </button>
         </header>
 
@@ -83,13 +119,17 @@ export default function AddMember() {
           <div className="w-[850px] flex flex-col gap-y-10 bg-white p-10 rounded-xl border border-border">
             <Outlet
               context={{
-                setName,
-                setLastName,
-                setEmail,
-                setNumber,
-                setJobTitle,
-                setServiceId,
-                serviceId,
+                // setName,
+                // setLastName,
+                // setEmail,
+                // setNumber,
+                // setJobTitle,
+                // services,
+                // setServices,
+                formData,
+                handleChange,
+                setEmployee,
+                employee,
               }}
             />
           </div>

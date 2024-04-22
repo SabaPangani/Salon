@@ -3,6 +3,7 @@ import User from "../components/User";
 import { ChangeEvent, useState } from "react";
 import { useEmployee } from "../hooks/useEmployee";
 import { EmployeeType } from "../shared/EmployeeType";
+import { select } from "@syncfusion/ej2-react-schedule";
 
 export default function Team() {
   const navigate = useNavigate();

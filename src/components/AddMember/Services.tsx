@@ -1,27 +1,28 @@
 import { useLocation, useOutletContext } from "react-router-dom";
 import { useService } from "../../hooks/useService";
+import { ServiceType } from "../../shared/ServiceType";
+import { useState } from "react";
+import { EmployeeType } from "../../shared/EmployeeType";
 interface ProfileContextType {
-  setName: (name: string) => void;
-  setLastName: (lastName: string) => void;
-  setEmail: (email: string) => void;
-  setNumber: (number: string) => void;
-  setJobTitle: (jobTitle: string) => void;
-  setServiceId: (id: string) => void;
-  serviceId: string;
+  employee: EmployeeType;
+  formData: any;
+  handleChange: any;
 }
 export default function Services() {
   const { services } = useService()!;
-  const { setServiceId, serviceId } = useOutletContext() as ProfileContextType;
-  const { state } = useLocation();
-  console.log(state)
+  const { formData, employee, handleChange } =
+    useOutletContext() as ProfileContextType;
+
+  console.log(employee.id);
+  const [serviceId, setServiceId] = useState("");
   const handleServiceAssign = async () => {
     const employeeService = {
-      employeeId: state?.id,
+      employeeId: employee?.id,
       serviceId,
       price: 0,
       percentage: 0,
     };
-    console.log(employeeService)
+    console.log(employeeService);
     try {
       const res = await fetch("https://localhost:7121/api/employeeservice", {
         method: "POST",
@@ -54,7 +55,18 @@ export default function Services() {
             className="form-select mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
             defaultValue=""
             onChange={(e) => {
-              setServiceId(e.target.value);
+              const selectedId = e.target.value;
+              setServiceId(selectedId);
+              for (const category of services) {
+                const foundService: ServiceType = category.services.find(
+                  (service) => service.id === selectedId
+                )!;
+                console.log(foundService);
+                if (foundService) {
+                  handleChange("services")([foundService]);
+                  break;
+                }
+              }
             }}
           >
             <option disabled value="">
@@ -72,9 +84,15 @@ export default function Services() {
           </select>
         </label>
 
-        <button className="btn-secondary mt-7" onClick={handleServiceAssign} type="button">
-          Assign service
-        </button>
+        {employee && (
+          <button
+            className="btn-secondary mt-7"
+            onClick={handleServiceAssign}
+            type="button"
+          >
+            Assign service
+          </button>
+        )}
       </div>
     </>
   );
