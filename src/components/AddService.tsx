@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import Input from "./Input";
 import CategoryModal from "./modals/CategoryModal";
 import { useService } from "../hooks/useService";
@@ -8,26 +8,42 @@ import CancelSvg from "./svgs/CancelSvg";
 export default function AddService() {
   const { state } = useLocation();
   const [showModal, setShowModal] = useState(false);
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const [afterCareDesc, setAfterCareDesc] = useState("");
-  const [category, setCategory] = useState<CategoryType>();
   const toggleModal = () => setShowModal((prev) => !prev);
   const { createService, updateService, deleteService } = useService()!;
+
+  const formInitialState = useMemo(
+    () => ({
+      name: state.service?.name ?? "",
+      desc: state.service?.description ?? "",
+      afterCareDesc: state.service?.afterCareDescription ?? "",
+      category: state.service?.category ?? ({} as CategoryType),
+    }),
+    [state.service]
+  );
+  const [formData, setFormData] = useState(formInitialState);
+
+  const handleChange = (field: string) => (value: any) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (state?.service.id) {
       updateService(
         state.service.id,
-        name,
-        desc,
-        afterCareDesc,
-        state.category?.categoryId
+        formData.name,
+        formData.desc,
+        formData.afterCareDesc,
+        formData.category?.categoryId
       );
       return;
     }
-    createService(name, desc, afterCareDesc, category?.categoryId!);
+    createService(
+      formData.name,
+      formData.desc,
+      formData.afterCareDesc,
+      formData.category?.categoryId!
+    );
   };
 
   return (
@@ -72,7 +88,7 @@ export default function AddService() {
                 type="text"
                 placeholder=""
                 onChange={(e) => {
-                  setName(e);
+                  handleChange("name")(e);
                 }}
                 value={state?.service ? state?.service?.name : ""}
               />
@@ -81,7 +97,9 @@ export default function AddService() {
               <span className="text-sm font-semibold">Service category</span>
               <div className="input flex items-center justify-between" id="">
                 <span className="font-semibold text-dark">
-                  {state?.category.name ? state.category.name : category?.name}
+                  {state?.category.name
+                    ? state.category.name
+                    : formData.category?.name}
                 </span>
                 <span
                   className="cursor-pointer font-medium text-purple"
@@ -99,7 +117,7 @@ export default function AddService() {
                 type="textarea"
                 placeholder=""
                 onChange={(e) => {
-                  setAfterCareDesc(e);
+                  handleChange("afterCareDesc")(e);
                 }}
                 value={state?.service ? state?.service?.description : ""}
               />
@@ -112,7 +130,7 @@ export default function AddService() {
                 type="textarea"
                 placeholder=""
                 onChange={(e) => {
-                  setDesc(e);
+                  handleChange("desc")(e);
                 }}
                 value={
                   state?.service ? state?.service?.afterCareDescription : ""
@@ -136,7 +154,7 @@ export default function AddService() {
         {showModal && (
           <CategoryModal
             toggleModal={toggleModal}
-            onSetCategory={setCategory}
+            onSetCategory={handleChange("category")}
           />
         )}
       </form>

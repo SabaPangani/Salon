@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import CancelSvg from "../svgs/CancelSvg";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import { useEmployee } from "../../hooks/useEmployee";
 import { EmployeeType } from "../../shared/EmployeeType";
 
@@ -8,36 +8,26 @@ export default function AddMember() {
   const navigate = useNavigate();
   const [employee, setEmployee] = useState<EmployeeType>();
   const { createEmployee, updateEmployee } = useEmployee()!;
-  const formInitialState = {
-    firstName: employee?.firstName ?? "",
-    lastName: employee?.lastName ?? "",
-    email: employee?.email ?? "",
-    number: employee?.phoneNumber ?? "",
-    jobTitle: employee?.jobTitle ?? "",
-    services: employee?.services ?? [],
-  };
+
+  const formInitialState = useMemo(
+    () => ({
+      firstName: employee?.firstName ?? "",
+      lastName: employee?.lastName ?? "",
+      email: employee?.email ?? "",
+      number: employee?.phoneNumber ?? "",
+      jobTitle: employee?.jobTitle ?? "",
+      services: employee?.services ?? [],
+    }),
+    [employee]
+  );
   const [formData, setFormData] = useState(formInitialState);
 
-  useEffect(() => {
-    if (employee) {
-      setFormData({
-        firstName: employee.firstName || "",
-        lastName: employee.lastName || "",
-        email: employee.email || "",
-        number: employee.phoneNumber || "",
-        jobTitle: employee.jobTitle || "",
-        services: employee.services || [],
-      });
-    }
-  }, [employee]);
-
   const handleChange = (field: string) => (value: any) => {
-    setFormData({ ...formData, [field]: value });
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
   const handleClick = () => {
     navigate("/team");
   };
-  console.log(employee);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -59,14 +49,6 @@ export default function AddMember() {
           formData.jobTitle,
           formData.services
         );
-    console.log(
-      formData.firstName,
-      formData.lastName,
-      formData.email,
-      formData.number,
-      formData.jobTitle,
-      formData.services
-    );
   };
   const getNavLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive
