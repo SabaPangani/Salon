@@ -1,4 +1,4 @@
-import { useLocation, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import { useService } from "../../hooks/useService";
 import { ServiceType } from "../../shared/ServiceType";
 import { useState } from "react";
@@ -10,8 +10,7 @@ interface ProfileContextType {
 }
 export default function Services() {
   const { services } = useService()!;
-  const { formData, employee, handleChange } =
-    useOutletContext() as ProfileContextType;
+  const { employee, handleChange } = useOutletContext() as ProfileContextType;
 
   console.log(employee.id);
   const [serviceId, setServiceId] = useState("");

@@ -92,14 +92,15 @@ export default function Catalogue() {
                   </div>
                 )}
               </div>
-              {category.services.map((service) => (
-                <Link
-                  key={service.id}
-                  to={{
-                    pathname: "service/add",
-                  }}
-                  state={{ category, service }}
-                >
+              {category?.services?.length &&
+                category.services.map((service) => (
+                  <Link
+                    key={service.id}
+                    to={{
+                      pathname: "service/add",
+                    }}
+                    state={{ category, service }}
+                  >
                     <div className="flex justify-between items-center border-border border py-4 px-5 cursor-pointer relative">
                       <div className="bg-blue-500 w-1 h-full absolute left-0"></div>
                       <h4 className="font-medium text-lg">{service.name}</h4>
@@ -108,8 +109,8 @@ export default function Catalogue() {
                       </p>
                       <p className="font-semibold">{service.price}</p>
                     </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
             </li>
           ))}
         </ul>

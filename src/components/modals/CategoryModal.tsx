@@ -8,7 +8,7 @@ export default function CategoryModal({
   onSetCategory,
 }: {
   toggleModal: () => void;
-  onSetCategory: (category: CategoryType) => void;
+  onSetCategory: (category: string) => void;
 }) {
   const { services } = useService()!;
 
@@ -31,7 +31,7 @@ export default function CategoryModal({
               key={category.categoryId}
               className="text-lg text-dark font-medium border-border border-b pb-5 px-5 cursor-pointer flex flex-row items-center gap-x-5"
               onClick={() => {
-                onSetCategory(category);
+                onSetCategory(category.categoryId);
                 toggleModal();
               }}
             >

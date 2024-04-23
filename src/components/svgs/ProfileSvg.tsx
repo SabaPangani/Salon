@@ -5,7 +5,7 @@ export default function ProfileSvg() {
         xmlns="http://www.w3.org/2000/svg"
         width="26"
         height="26"
-        fill="white"
+        fill="black"
         className="bi bi-person-circle"
         viewBox="0 0 16 16"
       >

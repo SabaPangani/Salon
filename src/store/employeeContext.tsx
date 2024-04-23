@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import { EmployeeContextType } from "../shared/EmployeeContextType";
 import { EmployeeType } from "../shared/EmployeeType";
 import { EmptyEmployee } from "../shared/EmployeeType";
@@ -13,6 +13,21 @@ export const EmployeeProvider: React.FC<{ children: React.ReactNode }> = ({
   const [selectedEmployee, setSelectedEmployee] =
     useState<EmployeeType>(EmptyEmployee);
   const [employees, setEmployees] = useState([]);
+
+  const fetchData = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_URL}/employee`);
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      const json = await res.json();
+      setEmployees(json.data);
+    } catch (e: any) {
+      console.error(e.message);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   useEffect(() => {
     console.log(API_URL);

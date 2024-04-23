@@ -1,6 +1,6 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import { ServiceContextType } from "../shared/ServiceContextType";
-import { CategoryType } from "../shared/ServiceType";
+import { CategoryType, ServiceType } from "../shared/ServiceType";
 import { API_URL } from "./employeeContext";
 
 export const serviceContext = createContext<ServiceContextType | null>(null);
@@ -8,24 +8,23 @@ export const serviceContext = createContext<ServiceContextType | null>(null);
 export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  // const [categories, setCategories] = useState<CategoryType[]>([]);
   const [services, setServices] = useState<CategoryType[]>([]);
   const [selectedEmployee, setSelectedEmployee] = useState();
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(`${API_URL}/service`);
-        if (!res.ok) {
-          throw new Error(`Failed to fetch services, ${res.status}`);
-        }
-        const json = await res.json();
-        setServices(json.data);
-      } catch (error) {
-        console.error(error);
+  const fetchData = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_URL}/service`);
+      if (!res.ok) {
+        throw new Error(`Failed to fetch services, ${res.status}`);
       }
-    };
-    fetchData();
+      const json = await res.json();
+      setServices(json.data);
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
   console.log(services);
 
   const createCategory = async (name: string, color: string, desc: string) => {
@@ -40,8 +39,6 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
         throw new Error(`Failed to create category, ${res.status}`);
       }
       const json = await res.json();
-      // setCategories((prev) => [...prev, json]);
-      console.log(json);
     } catch (error) {
       console.error(error);
     }
@@ -76,22 +73,34 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
     categoryId: string
   ) => {
     try {
-      const service = {
+      const newService = {
         name,
         aftercareDescription: afterCareDesc,
         description: desc,
         categoryId,
       };
-      console.log(service);
+      console.log(newService);
       const res = await fetch(`${API_URL}/service`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(service),
+        body: JSON.stringify(newService),
       });
       if (!res.ok) {
         throw new Error(`Failed to create category, ${res.status}`);
       }
       const json = await res.json();
+      setServices((prev: CategoryType[]) => {
+        return prev.map((category: CategoryType) => {
+          if (category.categoryId === categoryId) {
+            return {
+              ...category,
+              services: [...category.services, newService as ServiceType],
+            };
+          } else {
+            return category;
+          }
+        });
+      });
       console.log(json);
     } catch (error) {
       console.error(error);
@@ -105,19 +114,19 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
     categoryId: string
   ) => {
     try {
-      const service = {
+      const newService = {
         id,
         name,
         description: desc,
         afterCareDescription: afterCareDesc,
         categoryId,
       };
-      console.log(service);
+      console.log(newService);
 
       const res = await fetch(`${API_URL}/service`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(service),
+        body: JSON.stringify(newService),
       });
 
       if (!res.ok) {
@@ -125,6 +134,18 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
       }
 
       const json = await res.json();
+      setServices((prev: CategoryType[]) => {
+        return prev.map((category: CategoryType) => {
+          if (category.categoryId === categoryId) {
+            return {
+              ...category,
+              services: [...category.services, newService as unknown as ServiceType],
+            };
+          } else {
+            return category;
+          }
+        });
+      });
       console.log(json);
     } catch (error) {
       console.error(error);
@@ -150,14 +171,11 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
   };
   const deleteCategory = async (id: string) => {
     try {
-      const res = await fetch(
-        `${API_URL}/servicecategory/${id}`,
-        {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(id),
-        }
-      );
+      const res = await fetch(`${API_URL}/servicecategory/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(id),
+      });
 
       if (!res.ok) {
         throw new Error(
@@ -183,7 +201,7 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
         createService,
         updateService,
         selectedEmployee,
-        setSelectedEmployee
+        setSelectedEmployee,
       }}
     >
       {children}

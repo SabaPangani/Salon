@@ -2,10 +2,10 @@ import { FormEvent, useMemo, useState } from "react";
 import Input from "./Input";
 import CategoryModal from "./modals/CategoryModal";
 import { useService } from "../hooks/useService";
-import { CategoryType } from "../shared/ServiceType";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import CancelSvg from "./svgs/CancelSvg";
 export default function AddService() {
+  const navigate = useNavigate();
   const { state } = useLocation();
   const [showModal, setShowModal] = useState(false);
   const toggleModal = () => setShowModal((prev) => !prev);
@@ -13,17 +13,19 @@ export default function AddService() {
 
   const formInitialState = useMemo(
     () => ({
-      name: state.service?.name ?? "",
-      desc: state.service?.description ?? "",
-      afterCareDesc: state.service?.afterCareDescription ?? "",
-      category: state.service?.category ?? ({} as CategoryType),
+      name: state?.service?.name ?? "",
+      desc: state?.service?.description ?? "",
+      afterCareDesc: state?.service?.afterCareDescription ?? "",
+      categoryId: state?.service?.category ?? "",
     }),
-    [state.service]
+    [state?.service]
   );
   const [formData, setFormData] = useState(formInitialState);
 
   const handleChange = (field: string) => (value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    console.log(field, value);
+    console.log(formData);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -34,16 +36,17 @@ export default function AddService() {
         formData.name,
         formData.desc,
         formData.afterCareDesc,
-        formData.category?.categoryId
+        formData.categoryId
       );
-      return;
+    } else {
+      createService(
+        formData.name,
+        formData.desc,
+        formData.afterCareDesc,
+        formData.categoryId
+      );
     }
-    createService(
-      formData.name,
-      formData.desc,
-      formData.afterCareDesc,
-      formData.category?.categoryId!
-    );
+    navigate("/catalogue");
   };
 
   return (
@@ -97,9 +100,7 @@ export default function AddService() {
               <span className="text-sm font-semibold">Service category</span>
               <div className="input flex items-center justify-between" id="">
                 <span className="font-semibold text-dark">
-                  {state?.category.name
-                    ? state.category.name
-                    : formData.category?.name}
+                  {state?.category?.name}
                 </span>
                 <span
                   className="cursor-pointer font-medium text-purple"
@@ -154,7 +155,7 @@ export default function AddService() {
         {showModal && (
           <CategoryModal
             toggleModal={toggleModal}
-            onSetCategory={handleChange("category")}
+            onSetCategory={handleChange("categoryId")}
           />
         )}
       </form>
