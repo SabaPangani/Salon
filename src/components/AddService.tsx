@@ -48,6 +48,7 @@ export default function AddService() {
       );
     }
     navigate("/catalogue");
+    navigate(0);
   };
 
   return (
@@ -101,9 +102,7 @@ export default function AddService() {
               <span className="text-sm font-semibold">Service category</span>
               <div className="input flex items-center justify-between" id="">
                 <span className="font-semibold text-dark">
-                  {state?.category?.name
-                    ? state?.category?.name
-                    : formData.category.name}
+                  {formData.category.name ?? state?.category?.name}
                 </span>
                 <span
                   className="cursor-pointer font-medium text-purple"
@@ -111,7 +110,7 @@ export default function AddService() {
                     setShowModal(true);
                   }}
                 >
-                  Edit
+                  Select
                 </span>
               </div>
             </label>
