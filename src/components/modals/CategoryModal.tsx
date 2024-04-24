@@ -1,4 +1,3 @@
-
 import { useService } from "../../hooks/useService";
 import { CategoryType } from "../../shared/ServiceType";
 import CancelSvg from "../svgs/CancelSvg";
@@ -8,7 +7,7 @@ export default function CategoryModal({
   onSetCategory,
 }: {
   toggleModal: () => void;
-  onSetCategory: (category: string) => void;
+  onSetCategory: (category: CategoryType) => void;
 }) {
   const { services } = useService()!;
 
@@ -31,7 +30,7 @@ export default function CategoryModal({
               key={category.categoryId}
               className="text-lg text-dark font-medium border-border border-b pb-5 px-5 cursor-pointer flex flex-row items-center gap-x-5"
               onClick={() => {
-                onSetCategory(category.categoryId);
+                onSetCategory(category);
                 toggleModal();
               }}
             >

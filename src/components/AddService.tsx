@@ -4,6 +4,7 @@ import CategoryModal from "./modals/CategoryModal";
 import { useService } from "../hooks/useService";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import CancelSvg from "./svgs/CancelSvg";
+import { CategoryType } from "../shared/ServiceType";
 export default function AddService() {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -16,7 +17,7 @@ export default function AddService() {
       name: state?.service?.name ?? "",
       desc: state?.service?.description ?? "",
       afterCareDesc: state?.service?.afterCareDescription ?? "",
-      categoryId: state?.service?.category ?? "",
+      category: state?.category ?? ({} as CategoryType),
     }),
     [state?.service]
   );
@@ -36,14 +37,14 @@ export default function AddService() {
         formData.name,
         formData.desc,
         formData.afterCareDesc,
-        formData.categoryId
+        formData.category.categoryId
       );
     } else {
       createService(
         formData.name,
         formData.desc,
         formData.afterCareDesc,
-        formData.categoryId
+        formData.category.categoryId
       );
     }
     navigate("/catalogue");
@@ -100,7 +101,9 @@ export default function AddService() {
               <span className="text-sm font-semibold">Service category</span>
               <div className="input flex items-center justify-between" id="">
                 <span className="font-semibold text-dark">
-                  {state?.category?.name}
+                  {state?.category?.name
+                    ? state?.category?.name
+                    : formData.category.name}
                 </span>
                 <span
                   className="cursor-pointer font-medium text-purple"
@@ -155,7 +158,7 @@ export default function AddService() {
         {showModal && (
           <CategoryModal
             toggleModal={toggleModal}
-            onSetCategory={handleChange("categoryId")}
+            onSetCategory={handleChange("category")}
           />
         )}
       </form>

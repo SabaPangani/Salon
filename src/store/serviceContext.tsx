@@ -135,11 +135,13 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const json = await res.json();
       setServices((prev: CategoryType[]) => {
-        return prev.map((category: CategoryType) => {
+        return prev.map((category) => {
           if (category.categoryId === categoryId) {
             return {
               ...category,
-              services: [...category.services, newService as unknown as ServiceType],
+              services: category.services.map((service) =>
+                service.id === id ? newService : service
+              ) as ServiceType[],
             };
           } else {
             return category;
