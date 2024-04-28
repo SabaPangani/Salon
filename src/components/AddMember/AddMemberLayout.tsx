@@ -1,26 +1,35 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import CancelSvg from "../svgs/CancelSvg";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useEmployee } from "../../hooks/useEmployee";
 import { EmployeeType } from "../../shared/EmployeeType";
+import { ServiceType } from "../../shared/ServiceType";
 
+type FormInitialState = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  number: string;
+  jobTitle: string;
+  services: ServiceType[];
+};
 export default function AddMember() {
   const navigate = useNavigate();
   const [employee, setEmployee] = useState<EmployeeType>();
   const { createEmployee, updateEmployee } = useEmployee()!;
 
-  const formInitialState = useMemo(
-    () => ({
+  useEffect(() => {
+    const formInitialState: FormInitialState = {
       firstName: employee?.firstName ?? "",
       lastName: employee?.lastName ?? "",
       email: employee?.email ?? "",
       number: employee?.phoneNumber ?? "",
       jobTitle: employee?.jobTitle ?? "",
-      services: employee?.services ?? [],
-    }),
-    [employee]
-  );
-  const [formData, setFormData] = useState(formInitialState);
+      services: employee?.services ?? ([] as ServiceType[]),
+    };
+    setFormData(formInitialState);
+  }, [employee]);
+  const [formData, setFormData] = useState({} as FormInitialState);
 
   const handleChange = (field: string) => (value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -49,6 +58,8 @@ export default function AddMember() {
           formData.jobTitle,
           formData.services
         );
+    navigate("/team");
+    navigate(0);
   };
   const getNavLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive

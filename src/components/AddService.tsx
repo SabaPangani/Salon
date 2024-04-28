@@ -25,8 +25,6 @@ export default function AddService() {
 
   const handleChange = (field: string) => (value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-    console.log(field, value);
-    console.log(formData);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

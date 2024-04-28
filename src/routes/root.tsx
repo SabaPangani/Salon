@@ -6,7 +6,7 @@ export default function Root() {
     <>
       <Navbar />
 
-      <div className="flex justify-center items-center mt-48 w-full max-w-[900px] mx-auto bg-white p-8 rounded-lg">
+      <div className="flex justify-center items-center w-full max-w-[900px] mx-auto p-8 rounded-lg">
         <Outlet />
       </div>
     </>
