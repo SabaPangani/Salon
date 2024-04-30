@@ -1,0 +1,47 @@
+/* custom-calendar-styles.css */
+.rbc-calendar {
+  font-family: "Inter", sans-serif;
+}
+
+.rbc-btn {
+  color: red !important;
+  background-color: #007bff !important;
+  border: none;
+}
+
+.rbc-today {
+  background-color: #efebff !important; /* Change background color for 'today' */
+}
+
+.rbc-event {
+  background-color: #17a2b8; /* Change background color for events */
+  color: #fff; /* Change text color for events */
+  border: none; /* Remove borders around events */
+}
+
+.rbc-header {
+  background-color: white; /* Change background color for headers */
+  color: #333333;
+}
+.rbc-row {
+}
+.rbc-toolbar .rbc-btn-group button {
+  color: #333333;
+  border-radius: 10px;
+}
+.rbc-toolbar .rbc-btn-group button.rbc-active {
+  background-color: #efebff !important;
+  border: 1px solid #beadff;
+}
+.rbc-toolbar:nth-child(1) {
+  color: #333333;
+  font-weight: 500;
+}
+.rbc-time-view {
+  color: #333333;
+  font-weight: 500;
+  font-size: 13px;
+}
+.rbc-day-slot {
+  background-color: white !important;
+}
