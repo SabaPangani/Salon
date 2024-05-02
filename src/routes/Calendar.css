@@ -27,7 +27,8 @@
 }
 .rbc-toolbar .rbc-btn-group button {
   color: #333333;
-  border-radius: 10px;
+  border-radius: 10px !important;
+  margin-right: 10px;
 }
 .rbc-toolbar .rbc-btn-group button.rbc-active {
   background-color: #efebff !important;
