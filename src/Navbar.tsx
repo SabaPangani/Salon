@@ -11,8 +11,8 @@ import Catalogue from "./components/svgs/CatalogueSvg";
 export default function Navbar() {
   const getNavLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive
-      ? "bg-blue-500 p-2 rounded-lg cursor-pointer"
-      : "hover:bg-[#d9d9d95a] p-2 rounded-lg cursor-pointer";
+      ? "bg-[#beadff] p-2 rounded-lg cursor-pointer"
+      : "hover:bg-[#beadff] p-2 rounded-lg cursor-pointer";
   return (
     <nav className="fixed top-0 left-0 bg-white w-full py-4 px-6 flex items-center justify-between border-b border-b-border z-10">
       <h1 className="font-bold text-2xl">Beauty</h1>

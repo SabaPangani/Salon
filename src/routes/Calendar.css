@@ -1,8 +1,8 @@
 /* custom-calendar-styles.css */
 .rbc-calendar {
   font-family: "Inter", sans-serif;
+  border-radius: 20px !important;
 }
-
 .rbc-btn {
   color: red !important;
   background-color: #007bff !important;
@@ -10,7 +10,7 @@
 }
 
 .rbc-today {
-  background-color: #efebff !important; /* Change background color for 'today' */
+  background-color: #cec2ff !important; /* Change background color for 'today' */
 }
 
 .rbc-event {
@@ -43,6 +43,34 @@
   font-weight: 500;
   font-size: 13px;
 }
+.rbc-toolbar-label {
+  color: #333333;
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-size: 17px;
+}
+.rbc-btn-group button:hover{
+  background-color: #beadff !important;
+  color: white !important;
+  transition: 0.2s all;
+}
+.rbc-header {
+  padding: 10px 0 10px 0 !important;
+}
+.rbc-header span{
+  font-size: 15px;
+}
 .rbc-day-slot {
   background-color: white !important;
+}
+
+.rbc-slot-selection, .rbc-selected-cell {
+  background-color: #efebff !important;
+}
+.rbc-slot-selection, .rbc-selected-cell span{
+  color: #333333 !important;
+}
+.rbc-date-cell button {
+  color: #333333;
+  font-weight: 500;
 }
